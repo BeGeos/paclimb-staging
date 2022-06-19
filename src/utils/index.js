@@ -282,6 +282,31 @@ export const digestFormData = (data, filters) => {
 
 	// Formatting to get an object with key[sector]: value[Array<crags>]
 	results = formatResults(results);
-	// console.log(results);
 	return results;
+};
+
+// Timezone and Timestamps
+export const getTimezoneDate = (timestamp, offset) => {
+	return timestamp + offset;
+};
+
+export const formatUnixDate = (unix, lang = 'en') => {
+	let DAYS_OF_THE_WEEK = [];
+	if (lang === 'it') {
+		DAYS_OF_THE_WEEK = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
+	} else {
+		DAYS_OF_THE_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+	}
+
+	let date = new Date(unix * 1000);
+
+	let day = date.getDate();
+	let weekDay = DAYS_OF_THE_WEEK[date.getDay()];
+	let hour = date.getHours();
+
+	return [day, weekDay, hour];
+};
+
+export const getPercentage = (num) => {
+	return isNaN(num) ? '-' : Math.floor(num * 100);
 };
