@@ -135,6 +135,17 @@
 			{/each}
 		</div>
 	{/if}
+	<!-- Weather API reference -->
+	<div>
+		<p class="my-0 text-xs text-center font-light">
+			Weather data from <a
+				href="https://openweathermap.org/"
+				rel="noopener noreferrer"
+				target="_blank"
+				class="underline hover:decoration-dotted">OpenWeatherMap</a
+			>
+		</p>
+	</div>
 </div>
 
 <style>
