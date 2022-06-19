@@ -16,6 +16,7 @@
 	import Dashboard from '@components/Dashboard.svelte';
 	import Filters from '@components/Filters.svelte';
 	import WeatherCard from '@components/WeatherCard.svelte';
+	import Windy from '@components/WindyEmbeds.svelte';
 
 	// Stores
 	import { falesie, parkings, sectors } from '@stores';
@@ -48,6 +49,7 @@
 	let roadName;
 	let featureName;
 	let featureLink;
+	let windyParam;
 
 	let x = 0;
 	let y = 0;
@@ -57,6 +59,7 @@
 	let show = false;
 	let filterActive = false;
 	let weatherActive = false;
+	let openWindy = false;
 
 	const returnHome = () => {
 		dataWalls = null;
@@ -153,7 +156,6 @@
 		}
 	};
 
-	// TODO
 	const forwardGeocoder = (query) => {
 		const matchingFeatures = [];
 		for (const feature of $falesie) {
@@ -285,6 +287,15 @@
 		return;
 	};
 
+	const handleWeatherDetails = (e) => {
+		windyParam = e.detail.param;
+		openWindy = true;
+	};
+
+	const handleCloseWindy = () => {
+		openWindy = false;
+	};
+
 	onMount(() => {
 		createMap();
 	});
@@ -353,7 +364,11 @@
 			{lat}
 			{lon}
 			on:closeWeather={() => (weatherActive = false)}
+			on:openWeatherDetail={handleWeatherDetails}
 		/>
+		{#if openWindy}
+			<Windy {lat} {lon} detail={windyParam} on:closeWindy={handleCloseWindy} />
+		{/if}
 	</Dashboard>
 	<div bind:this={container} class="absolute inset-0 -z-10">
 		{#if map}

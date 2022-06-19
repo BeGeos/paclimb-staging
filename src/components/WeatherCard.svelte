@@ -119,6 +119,7 @@
 					{currentUVI}
 					{currentWindSpeed}
 					{currentClouds}
+					on:openWeatherDetail
 				/>
 			</div>
 		</div>
