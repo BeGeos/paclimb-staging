@@ -8,13 +8,14 @@
 
 	// Font Awesome
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import { faArrowLeft, faFilter } from '@fortawesome/free-solid-svg-icons/index.es';
+	import { faArrowLeft, faFilter, faCloudSun } from '@fortawesome/free-solid-svg-icons/index.es';
 
 	// Components
 	import Card from '@components/Card.svelte';
 	import Popup from '@components/Popup.svelte';
 	import Dashboard from '@components/Dashboard.svelte';
 	import Filters from '@components/Filters.svelte';
+	import WeatherCard from '@components/WeatherCard.svelte';
 
 	// Stores
 	import { falesie, parkings, sectors } from '@stores';
@@ -55,10 +56,16 @@
 	let satellite = true;
 	let show = false;
 	let filterActive = false;
+	let weatherActive = false;
 
 	const returnHome = () => {
 		dataWalls = null;
 		closePopup();
+
+		// Close open windows
+		filterActive = false;
+		weatherActive = false;
+
 		dispatch('returnHome');
 	};
 
@@ -301,9 +308,24 @@
 	class:isForeground={visible}
 >
 	<Dashboard {visible}>
-		<div class="absolute top-[10px] left-[10px]">
-			<button class="p-2 rounded-md bg-white shadow-lg" on:click={() => (filterActive = true)}>
+		<div class="absolute top-[10px] left-[10px] flex flex-col gap-4">
+			<button
+				class="p-2 rounded-md bg-white shadow-lg"
+				on:click={() => {
+					weatherActive = false;
+					filterActive = true;
+				}}
+			>
 				<Fa icon={faFilter} />
+			</button>
+			<button
+				class="p-2 rounded-md bg-white shadow-lg"
+				on:click={() => {
+					filterActive = false;
+					weatherActive = true;
+				}}
+			>
+				<Fa icon={faCloudSun} />
 			</button>
 		</div>
 		<div class="absolute bottom-10 left-5" class:light={satellite} class:dark={outdoor}>
@@ -320,6 +342,18 @@
 				<span class="hidden md:block">Return Home</span>
 			</button>
 		</div>
+		<Filters
+			active={filterActive}
+			on:closeFilters={() => (filterActive = false)}
+			on:flyFromResults={(e) => flyFromResults(map, e.detail.x, e.detail.y)}
+		/>
+		<WeatherCard
+			active={weatherActive}
+			location="Finale Ligure"
+			{lat}
+			{lon}
+			on:closeWeather={() => (weatherActive = false)}
+		/>
 	</Dashboard>
 	<div bind:this={container} class="absolute inset-0 -z-10">
 		{#if map}
@@ -342,11 +376,6 @@
 	}}
 />
 <Popup {roadName} {featureName} {featureLink} {show} {x} {y} handleClose={closePopup} />
-<Filters
-	active={filterActive}
-	on:closeFilters={() => (filterActive = false)}
-	on:flyFromResults={(e) => flyFromResults(map, e.detail.x, e.detail.y)}
-/>
 
 <style>
 	.active {
