@@ -30,6 +30,7 @@
 		"lodash": "^4.17.21",
 		"mapbox-gl": "^2.7.1",
 		"sugarss": "^4.0.1",
-		"svelte-fa": "^2.4.0"
+		"svelte-fa": "^2.4.0",
+		"winston": "^3.7.2"
 	}
 }

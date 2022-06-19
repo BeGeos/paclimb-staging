@@ -1,5 +1,4 @@
-// External libraries
-
+// HTTP Status
 import { http_200, http_500 } from '@http/status';
 
 // Stores
@@ -8,15 +7,20 @@ import { weather } from '@stores/files/weatherMock.json';
 // HTTP Weather Client
 import { WeatherAPIClient } from '@http/services';
 
+// Logger
+import { logger } from '@log';
+
 // Env
 const env = import.meta.env.VITE_ENVIRONMENT;
 
 const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
-export async function get({ request }) {
-	let requestUrl = new URL(request.url);
-	let lat = requestUrl.searchParams.get('lat');
-	let lon = requestUrl.searchParams.get('lon');
+export async function get({ request, url }) {
+	let reqMessage = `${request.method} ${url.pathname}`;
+	logger.info(reqMessage);
+
+	let lat = url.searchParams.get('lat');
+	let lon = url.searchParams.get('lon');
 
 	let client = new WeatherAPIClient(OPENWEATHER_API_KEY, {
 		exclude: 'daily,minutely',
@@ -31,6 +35,7 @@ export async function get({ request }) {
 			let data = await response.json();
 
 			if (response.ok) {
+				logger.info('Weather api request - OK');
 				return {
 					status: http_200.status,
 					body: data
@@ -38,6 +43,7 @@ export async function get({ request }) {
 			}
 
 			// Fallback return if response status != 2**
+			logger.warn(`Weather api request - ${response.statusText}`);
 			return {
 				status: http_500.status,
 				body: {
@@ -48,6 +54,7 @@ export async function get({ request }) {
 				}
 			};
 		} catch (err) {
+			logger.error(new Error(err.stack));
 			return {
 				status: http_500,
 				body: {
@@ -59,6 +66,7 @@ export async function get({ request }) {
 			};
 		}
 	} else if (env === 'dev') {
+		logger.debug('Mock weather data request');
 		return {
 			status: http_200.status,
 			body: weather

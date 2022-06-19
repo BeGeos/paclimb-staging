@@ -11,7 +11,8 @@ const config = {
 					'@components': path.resolve('./src/components'),
 					'@utils': path.resolve('./src/utils'),
 					'@stores': path.resolve('./src/stores'),
-					'@http': path.resolve('./src/http')
+					'@http': path.resolve('./src/http'),
+					'@log': path.resolve('./src/logger')
 				}
 			}
 		}
