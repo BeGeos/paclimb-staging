@@ -14,10 +14,14 @@ const env = import.meta.env.VITE_ENVIRONMENT;
 const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
 export async function get({ request }) {
+	let requestUrl = new URL(request.url);
+	let lat = requestUrl.searchParams.get('lat');
+	let lon = requestUrl.searchParams.get('lon');
+
 	let client = new WeatherAPIClient(OPENWEATHER_API_KEY, {
 		exclude: 'daily,minutely',
-		lat: 44.18,
-		lon: 8.34,
+		lat: lat,
+		lon: lon,
 		units: 'metric'
 	});
 
