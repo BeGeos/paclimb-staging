@@ -44,16 +44,18 @@
 <div class="my-8">
 	{#if !isResultsEmpty}
 		{#each Object.entries(results) as [sector, crags]}
-			<h4 class="text-lg">{titleCase(sector)}</h4>
-			{#each crags as crag}
-				<div
-					class="min-w-full hover:bg-light-blue cursor-pointer"
-					on:click={(e) => handleFlyFromResults(e, crag.x, crag.y)}
-				>
-					<p class="p-2 m-0 font-normal text-base">{titleCase(crag.name)}</p>
-				</div>
-			{/each}
-			<hr />
+			<h4 class="text-lg bg-white py-2">{titleCase(sector)}</h4>
+			<ul>
+				{#each crags as crag}
+					<li
+						class="min-w-full hover:bg-light-blue cursor-pointer p-2 font-normal text-base"
+						on:click={(e) => handleFlyFromResults(e, crag.x, crag.y)}
+					>
+						{titleCase(crag.name)}
+					</li>
+				{/each}
+				<hr />
+			</ul>
 		{/each}
 	{:else}
 		<h3>No crag match your search</h3>

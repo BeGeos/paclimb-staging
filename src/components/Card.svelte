@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, createEventDispatcher } from 'svelte';
 
 	// Font Awesome
 	import Fa from 'svelte-fa/src/fa.svelte';
@@ -8,146 +8,164 @@
 		faCar,
 		faBook,
 		faClipboardList,
-		faRoute
+		faRoute,
+		faAngleUp,
+		faCompass
 	} from '@fortawesome/free-solid-svg-icons/index.es';
 
+	// Components
 	import CardLink from '@components/CardLink.svelte';
 	import Dot from '@components/Dot.svelte';
 	import Sunlight from '@components/Sunlight.svelte';
 
+	// Utils
+	import { convertAzimuthToLetter } from '@utils';
+	import SunlightFilter from './SunlightFilter.svelte';
+
 	export let data;
 
-	let active;
-	let sector;
-	let wall;
-	let wallLink;
-	let A51;
-	let parking;
-	let parkingLink;
-	let park1_road;
-	let park1_x;
-	let park1_y;
-	let parking2;
-	let parkingLink2;
-	let park2_road;
-	let park2_x;
-	let park2_y;
-	let pgVersante;
-	let fall;
-	let summer;
-	let spring;
-	let winter;
 	let slider;
 	let height;
-	let windowRatio;
-	let windowHeight = 0;
+	let active = false;
 	let small = true;
 	let medium = false;
 	let large = false;
 	let touchstartY = 0;
 	let touchendY = 0;
 
-	$: if (data) {
-		active = true;
+	const dispatch = createEventDispatcher();
 
-		const props = data.properties;
+	const handleClose = () => {
+		dispatch('closeCard');
+	};
 
-		// Wall and guide details
-		wall = props.falesia;
-		sector = props.Settore != '-' ? props.Settore : wall;
-		wallLink = props.link_wall;
-		A51 = props.A51_wall != '-' ? props.A51_wall : null;
-		pgVersante = props.VSud_wall != '-' ? props.VSud_wall : null;
-
-		// Parking details
-		parking = props.park1;
-		parkingLink = props.park1_lk;
-		park1_road = props.park1_road;
-		park1_x = parseFloat(props.park1_x);
-		park1_y = parseFloat(props.park1_y);
-		parking2 = props.park2 != '-' ? props.park2 : null;
-		parkingLink2 = props.park2_lk ? props.park2_lk : null;
-		park2_road = props.park2_road;
-		park2_x = parseFloat(props.park2_x);
-		park2_y = parseFloat(props.park2_y);
-
-		// Exposure details
-		fall = props.fall;
-		spring = props.spring;
-		summer = props.summr;
-		winter = props.winter;
-	} else {
-		active = false;
-	}
-
-	// $: console.log(data);
-
-	onMount(() => {
-		slider.addEventListener('touchmove', (e) => {
-			let positionY = e.changedTouches[0].clientY;
-			let localHeight = windowHeight - positionY;
-			windowRatio = localHeight / windowHeight;
-
-			if (windowRatio >= 0.65) {
-				// 75%
-				small = false;
-				medium = false;
-				large = true;
-			} else if (windowRatio >= 0.4 && windowRatio < 0.65) {
-				// Between 40 and 65%
+	// Utils functions
+	const handleSwipe = () => {
+		// Swipe up
+		if (touchendY < touchstartY) {
+			if (small) {
 				small = false;
 				medium = true;
 				large = false;
-			} else {
-				height = '';
-				small = true;
+			} else if (medium) {
+				small = false;
 				medium = false;
+				large = true;
+			} else return;
+		}
+		// Swipe down
+		if (touchendY > touchstartY) {
+			if (large) {
 				large = false;
-			}
+				medium = true;
+				small = false;
+			} else if (medium) {
+				medium = false;
+				small = true;
+			} else return;
+		}
+	};
 
-			height = `${localHeight}px`;
-		});
+	active = true;
 
-		slider.addEventListener('touchend', () => {
-			if (windowRatio >= 0.65) {
-				// 65%
-				height = `${1 * windowHeight}px`;
-			} else if (windowRatio >= 0.4 && windowRatio < 0.65) {
-				// Between 40 and 65%
-				height = `${0.6 * windowHeight}px`;
-			} else {
-				height = '';
-			}
-		});
+	$: props = data.properties;
+
+	// Wall and guide details
+	$: wall = props.falesia;
+	$: sector = props.Settore != '-' ? props.Settore : wall;
+	$: wallLink = props.link_wall;
+	$: A51 = props.A51_wall != '-' ? props.A51_wall : null;
+	$: pgVersante = props.VSud_wall != '-' ? props.VSud_wall : null;
+
+	// Positions
+	$: azimuth = convertAzimuthToLetter(props.azimut.toLowerCase());
+	$: latitude = parseFloat(props.falesia_y).toFixed(3);
+	$: longitude = parseFloat(props.falesia_x).toFixed(3);
+
+	// Parking details
+	$: parking = props.park1;
+	$: parkingLink = props.park1_lk;
+	$: park1_road = props.park1_road;
+	$: park1_x = parseFloat(props.park1_x);
+	$: park1_y = parseFloat(props.park1_y);
+	$: parking2 = props.park2 != '-' ? props.park2 : null;
+	$: parkingLink2 = props.park2_lk ? props.park2_lk : null;
+	$: park2_road = props.park2_road;
+	$: park2_x = parseFloat(props.park2_x);
+	$: park2_y = parseFloat(props.park2_y);
+
+	// Exposure details
+	$: fall = props.fall;
+	$: spring = props.spring;
+	$: summer = props.summr;
+	$: winter = props.winter;
+
+	const resetCard = () => {
+		active = !active;
+		small = true;
+		medium = false;
+		large = false;
+		height = '';
+	};
+
+	onMount(() => {
+		slider.addEventListener(
+			'touchstart',
+			(e) => {
+				touchstartY = e.changedTouches[0].screenY;
+			},
+			false
+		);
+		slider.addEventListener(
+			'touchend',
+			(e) => {
+				touchendY = e.changedTouches[0].screenY;
+				handleSwipe();
+			},
+			false
+		);
 	});
 </script>
 
-<svelte:window bind:innerHeight={windowHeight} />
-
 <div
-	class="fixed max-h-full bottom-0 left-0 text-sm bg-white rounded-lg rounded-b-none shadow-xl flex flex-col gap-4 p-6 z-40 scale-0 overscroll-contain lg:overflow-y-auto translate-y-full lg:rounded-b-lg lg:left-[10%] lg:bottom-[20%] lg:text-base card-container "
+	class="fixed max-h-full bottom-0 left-0 text-sm bg-white rounded-lg rounded-b-none shadow-xl flex flex-col gap-4 p-6 z-40 overscroll-contain lg:overflow-y-auto lg:rounded-b-lg lg:left-[60%] lg:bottom-[20%] lg:text-base card-container"
 	class:active
 	class:small
 	class:medium
 	class:large
 	style:height
 	id="card"
+	bind:this={slider}
 >
-	<div class="fixed top-0 left-0 min-w-full h-8 lg:hidden" id="slider" bind:this={slider} />
-	<div class="flex justify-between items-center">
+	<div
+		class="min-w-full absolute top-0 left-0 flex items-center justify-center lg:hidden"
+		id="slider"
+	>
+		<span id="card-caret-up">
+			<Fa icon={faAngleUp} size="3x" color="rgba(0,0,0,0.3)" />
+		</span>
+	</div>
+	<div class="flex justify-between items-center mt-4">
 		<h3 class="uppercase font-Voltaire">{sector}</h3>
 		<span
 			class="text-2xl cursor-pointer"
 			on:click={() => {
-				active = !active;
-				small = true;
-				medium = false;
-				large = false;
-				height = '';
+				resetCard();
+				handleClose();
 			}}>&times;</span
 		>
 	</div>
-	<h2 class="font-Voltaire">{wall}</h2>
+	<div class="flex justify-between">
+		<h2 class="font-Voltaire">{wall}</h2>
+		<div class="flex gap-2 items-center">
+			<Fa icon={faCompass} size="lg" />
+			<h2>{azimuth}</h2>
+		</div>
+	</div>
+	<div class="flex gap-4 font-light">
+		<p>Latitude: {latitude}</p>
+		<p>Longitude: {longitude}</p>
+	</div>
 	{#if parking}
 		<div class="p-4 border rounded-lg border-black/40 flex flex-col gap-4" id="parking">
 			<div class="flex gap-2 items-center">
@@ -201,8 +219,8 @@
 		id="sunlight"
 		on:click={() => {
 			small = false;
-			medium = false;
-			large = true;
+			medium = !medium;
+			large = !large;
 		}}
 	>
 		<div class="flex gap-2 items-center">
@@ -210,6 +228,7 @@
 			<h5>Sunlight on the wall</h5>
 		</div>
 		<div class="flex flex-col gap-4" id="suntime-interval">
+			<Sunlight fake={true} />
 			<Sunlight period={fall} title="Autumn" />
 			<Sunlight period={winter} title="Winter" />
 			<Sunlight period={spring} title="Spring" />
@@ -238,7 +257,7 @@
 	}
 
 	/* Responsive Card Styles */
-	#slider::after {
+	.large > #slider::after {
 		content: '';
 		position: absolute;
 		display: block;
@@ -250,6 +269,15 @@
 		top: 0;
 		left: 50%;
 		transform: translateX(-50%);
+	}
+
+	.large #card-caret-up {
+		display: none;
+	}
+
+	#slider::after {
+		right: 49%;
+		transform: rotate(-30deg);
 	}
 
 	.small {
@@ -277,6 +305,7 @@
 
 	.large {
 		overflow-y: auto;
+		height: 100%;
 	}
 
 	.large #suntime-interval {

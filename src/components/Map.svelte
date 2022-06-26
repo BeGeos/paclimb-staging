@@ -24,6 +24,10 @@
 	// JS utils and functions
 	import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 	import { mapbox, MapboxGeocoder, addCursorToLayers, addFlytTo } from '@utils/mapbox.js';
+	import { convertAzimuthFromTextToInt } from '@utils';
+
+	// Import bounding boxes - for now just Finale Ligure
+	import { FINALE_LIGURE_BBOX } from '@utils/mapbox.js';
 
 	// Global variables
 	let BASE_STYLE_URL = import.meta.env.VITE_MAPBOX_BASE_STYLE_URL;
@@ -57,17 +61,15 @@
 	let outdoor = false;
 	let satellite = true;
 	let show = false;
+	let cardVisible = false;
 	let filterActive = false;
 	let weatherActive = false;
 	let openWindy = false;
+	let defaultBearing = -19.18;
 
 	const returnHome = () => {
-		dataWalls = null;
+		closeWallCard();
 		closePopup();
-
-		// Close open windows
-		filterActive = false;
-		weatherActive = false;
 
 		dispatch('returnHome');
 	};
@@ -76,13 +78,28 @@
 		show = false;
 	};
 
+	const openPopup = () => {
+		show = true;
+	};
+
+	const closeWallCard = () => {
+		cardVisible = false;
+	};
+
+	const openWallCard = () => {
+		cardVisible = true;
+	};
+
 	const addEventFalesie = (map) => {
 		map.on('click', 'falesieetichetta5', (e) => {
 			dataWalls = e.features[0];
 			let wallX = parseFloat(dataWalls.properties.falesia_x);
-			let wallY = parseFloat(dataWalls.properties.falesia_y) - 0.004;
-			show = false;
-			flyToWall(map, wallX, wallY);
+			let wallY = parseFloat(dataWalls.properties.falesia_y);
+			let azimuth = dataWalls.properties.azimut;
+
+			closePopup();
+			openWallCard();
+			flyToWall(map, wallX, wallY, azimuth);
 		});
 	};
 
@@ -104,15 +121,16 @@
 				: feature.properties.Googl;
 			x = e.point.x;
 			y = e.point.y;
-			show = true;
+			closeWallCard();
+			openPopup();
 		});
 	};
 
-	const closeCardWhenDrag = (map) => {
-		map.on('mousedown', (e) => {
-			dataWalls = null;
-		});
-	};
+	// const closeCardWhenDrag = (map) => {
+	// 	map.on('mousedown', (e) => {
+	// 		dataWalls = null;
+	// 	});
+	// };
 
 	const addClosePopup = (map) => {
 		map.on('mousedown', (e) => {
@@ -129,14 +147,22 @@
 	};
 
 	const flyToPark = (map, x, y) => {
-		map.setBearing(0);
+		// map.setBearing(0);
 		map.flyTo({
 			center: [x, y]
 		});
 	};
 
-	const flyToWall = (map, x, y) => {
-		map.setBearing(0);
+	const flyToWall = (map, x, y, azimuth) => {
+		let localAzimuth = convertAzimuthFromTextToInt(azimuth.toLowerCase());
+		let localBearing;
+
+		if (!azimuth || localAzimuth == undefined) {
+			localBearing = defaultBearing;
+		} else {
+			localBearing = localAzimuth + 180 > 360 ? localAzimuth - 180 : localAzimuth + 180;
+		}
+		map.setBearing(localBearing);
 		map.flyTo({
 			center: [x, y]
 		});
@@ -224,12 +250,12 @@
 			accessToken: import.meta.env.VITE_MAPBOX_ACCESS_TOKEN,
 			placeholder: 'Search the crags...',
 			localGeocoder: forwardGeocoder,
-			bbox: [8.2836296, 44.1547898, 8.4371453, 44.2277226],
+			bbox: FINALE_LIGURE_BBOX,
 			zoom: 15,
 			mapboxgl: mapbox
 		});
 
-		closeCardWhenDrag(map);
+		// closeCardWhenDrag(map);
 		addClosePopup(map);
 
 		// Adding event on click for popups
@@ -321,7 +347,7 @@
 	<Dashboard {visible}>
 		<div class="absolute top-[10px] left-[10px] flex flex-col gap-4">
 			<button
-				class="p-2 rounded-md bg-white shadow-lg"
+				class="p-2 rounded-md bg-white shadow-lg flex items-center justify-center"
 				on:click={() => {
 					weatherActive = false;
 					filterActive = true;
@@ -330,7 +356,7 @@
 				<Fa icon={faFilter} />
 			</button>
 			<button
-				class="p-2 rounded-md bg-white shadow-lg"
+				class="p-2 rounded-md bg-white shadow-lg flex items-center justify-center"
 				on:click={() => {
 					filterActive = false;
 					weatherActive = true;
@@ -382,14 +408,17 @@
 	</div>
 </div>
 
-<Card
-	data={dataWalls}
-	on:flyToPark={(e) => {
-		let x = e.detail.x;
-		let y = e.detail.y;
-		flyToPark(map, x, y);
-	}}
-/>
+{#if cardVisible}
+	<Card
+		data={dataWalls}
+		on:flyToPark={(e) => {
+			let x = e.detail.x;
+			let y = e.detail.y;
+			flyToPark(map, x, y);
+		}}
+		on:closeCard={closeWallCard}
+	/>
+{/if}
 <Popup {roadName} {featureName} {featureLink} {show} {x} {y} handleClose={closePopup} />
 
 <style>

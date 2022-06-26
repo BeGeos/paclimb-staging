@@ -18,6 +18,37 @@ export const parseTimeInterval = (interval) => {
 	return interval.split('-').map((v) => parseInt(v));
 };
 
+export const convertAzimuthToLetter = (azimuth) => {
+	let mapper = {
+		north: 'N',
+		northeast: 'NE',
+		east: 'E',
+		southeast: 'SE',
+		south: 'S',
+		southwest: 'SW',
+		west: 'W',
+		northwest: 'NW'
+	};
+
+	return mapper[azimuth];
+};
+
+export const convertAzimuthFromTextToInt = (azimuth) => {
+	let mapper = {
+		north: 0,
+		northeast: 45,
+		east: 90,
+		southeast: 135,
+		south: 180,
+		southwest: 225,
+		west: 270,
+		northwest: 315
+	};
+	if (!isNaN(azimuth)) throw new Error('Azimuth must be a string');
+
+	return mapper[azimuth];
+};
+
 export const getPartOfDay = (start, end, hoursOfDay = 24) => {
 	let delta = end - start;
 	if (isNaN(delta)) return 0;

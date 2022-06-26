@@ -15,7 +15,7 @@
 	let [day, weekDay, hour] = formatUnixDate(dt);
 </script>
 
-<div class="text-sm text-center min-w-fit my-2">
+<div class="text-sm text-center min-w-fit my-2 px-4" class:separate={hour === 0}>
 	<p class="m-0">{weekDay} {day}</p>
 	<p class="m-0 font-normal">{hour}</p>
 	<img src={iconUrl} alt={`forecast icon ${altText} at ${hour} on ${weekDay} ${day}`} />
@@ -25,3 +25,9 @@
 		{getPercentage(rainProbability)}%
 	</p>
 </div>
+
+<style>
+	.separate {
+		border-left: 1px solid rgba(0, 0, 0, 0.3);
+	}
+</style>

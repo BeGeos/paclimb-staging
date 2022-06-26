@@ -1,7 +1,7 @@
 <script>
 	import Backdrop from '@components/Backdrop.svelte';
 
-	let cardPreview = './images/crag-card-preview.png';
+	let cardPreview = './images/hd-card-walls.svg';
 </script>
 
 <Backdrop backdropColor="#CFE4E7" opacity={0.8} />

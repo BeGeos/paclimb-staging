@@ -2,6 +2,13 @@
 	// Svelte
 	import { createEventDispatcher } from 'svelte';
 
+	// Font awesome
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons/index.es';
+
+	// Components
+	import Tooltip from '@components/Tooltip.svelte';
+
 	export let title;
 	export let data;
 	export let extension;
@@ -18,12 +25,29 @@
 			param: detail
 		});
 	};
+
+	let danger = false;
+
+	$: if (title === 'UVI' && data >= 8) {
+		danger = true;
+	}
 </script>
 
 <div
-	class="p-2 text-center rounded-lg transition-all hover:bg-light-blue cursor-pointer"
+	class="group relative p-2 text-center rounded-lg transition-all hover:bg-light-blue cursor-pointer"
 	on:click={() => handleClick(param)}
 >
 	<h4>{title}</h4>
-	<p class="text-center">{data} {measure}</p>
+	<p class="flex items-center justify-center gap-2">
+		{data}
+		{measure}
+		{#if danger}
+			<span>
+				<Fa icon={faExclamationTriangle} color="red" />
+			</span>
+		{/if}
+	</p>
+	{#if title === 'UVI' && danger}
+		<Tooltip text="The UVI is quite high. Make sure to wear sunscreen and stay hydrated" />
+	{/if}
 </div>

@@ -81,7 +81,7 @@
 					<li class="hidden md:block">Feedback</li>
 					<span class="flex h-3 w-3">
 						<span
-							class="animate-ping absolute left-4 md:left-2 bottom-3 inline-flex h-3 w-3 rounded-full bg-danger-red opacity-75"
+							class="animate-ping absolute left-4 md:left-2 bottom-3 inline-flex h-3 w-3 rounded-full bg-danger-red"
 						/>
 						<span
 							class="absolute left-4 md:left-2 bottom-3 inline-flex rounded-full h-3 w-3 bg-danger-red"

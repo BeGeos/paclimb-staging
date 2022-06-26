@@ -124,13 +124,13 @@
 			</div>
 		</div>
 		<!-- Weather forecast -->
-		<div class="flex gap-6 max-w-full overflow-auto overscroll-contain">
+		<div class="flex max-w-full overflow-auto overscroll-contain">
 			{#each weatherHourlyForecast as hourForecast}
 				<ForecastCard
 					temp={hourForecast.temp}
 					dt={getTimezoneDate(hourForecast.dt, timezoneOffset)}
 					iconUrl={`${iconUrl}${hourForecast.weather[0].icon}.png`}
-					altText={hourForecast.weather.description}
+					altText={hourForecast.weather[0].description}
 					rainProbability={hourForecast.pop}
 				/>
 			{/each}
