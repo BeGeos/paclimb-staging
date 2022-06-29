@@ -1,10 +1,12 @@
 module.exports = {
+	mode: 'jit',
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		extend: {
 			colors: {
 				'gray-light': '#EEEAE2',
 				'light-blue': '#CFE4E7',
+				'dark-blue': '#153651',
 				'dk-slate': '#2F2E2E',
 				'sky-blue': '#4c8bf5',
 				'navy-blue': '#000080',

@@ -13,13 +13,11 @@
 </script>
 
 <div
-	class="fixed inset-0 flex justify-center items-center overscroll-contain overflow-hidden z-40 bg-black"
+	class="fixed inset-0 flex justify-center items-center overscroll-contain overflow-hidden z-40 bg-black/60"
+	on:click={handleWindyClose}
 >
-	<!-- Wind -->
-	<h1
-		class="absolute top-[10px] left-[10px] text-white text-3xl md:text-6xl cursor-pointer"
-		on:click={handleWindyClose}
-	>
+	<!-- Embed -->
+	<h1 class="absolute top-[10px] left-[10px] text-white text-3xl md:text-6xl cursor-pointer">
 		&times;
 	</h1>
 	<iframe

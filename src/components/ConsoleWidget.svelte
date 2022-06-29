@@ -4,7 +4,10 @@
 
 	// Font awesome
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons/index.es';
+	import {
+		faExclamationTriangle,
+		faUpRightFromSquare
+	} from '@fortawesome/free-solid-svg-icons/index.es';
 
 	// Components
 	import Tooltip from '@components/Tooltip.svelte';
@@ -37,7 +40,14 @@
 	class="group relative p-2 text-center rounded-lg transition-all hover:bg-light-blue cursor-pointer"
 	on:click={() => handleClick(param)}
 >
-	<h4>{title}</h4>
+	<h4 class="relative">
+		{title}
+		{#if title !== 'UVI'}
+			<span class="absolute -top-2 -right-1">
+				<Fa icon={faUpRightFromSquare} color="rgba(0,0,0,0.3)" size="xs" />
+			</span>
+		{/if}
+	</h4>
 	<p class="flex items-center justify-center gap-2">
 		{data}
 		{measure}

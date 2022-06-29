@@ -3,7 +3,7 @@
 </script>
 
 <div class="text-center max-w-md mx-auto relative text-white p-6">
-	<Backdrop backdropColor="#000080" opacity={0.8} />
+	<Backdrop backdropColor="#153651" opacity={0.8} />
 	<div id="team" class="flex flex-col gap-4 my-4">
 		<h2>Team</h2>
 		<a

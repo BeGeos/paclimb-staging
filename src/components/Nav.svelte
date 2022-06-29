@@ -16,7 +16,12 @@
 		faCommentDots
 	} from '@fortawesome/free-solid-svg-icons/index.es';
 
+	let open = false;
 	let navIconsSize = 'sm';
+
+	const handleShowMenu = () => {
+		open = !open;
+	};
 </script>
 
 <header class="w-full bg-light-blue z-10">
@@ -41,16 +46,47 @@
 		</div>
 		<!-- End Upper Navbar -->
 		<!-- Lower Navbar -->
+
 		<div class="w-full md:border-t-4 border-t border-black/40">
+			<!-- Mobile navbar -->
+			<div
+				class="min-h-[3rem] relative flex flex-col gap-2 cursor-pointer py-2 items-end md:hidden group"
+				on:click={handleShowMenu}
+			>
+				<span class="w-8 h-1 bg-dark-blue rounded-full" />
+				<span class="w-6 h-1 bg-dark-blue rounded-full" />
+				<span class="w-3 h-1 bg-dark-blue rounded-full" />
+				<div
+					class="absolute overscroll-contain min-w-[50%] border-dark-blue border bg-light-blue top-[85%] -right-2 z-20 rounded-md p-6 translate-x-[110%] transition-transform  min-h-fit overflow-y-auto text-2xl text-center shadow-lg font-bold text-dark-blue"
+					class:open
+				>
+					<ul class="flex flex-col gap-6">
+						<a href="/#how-to">
+							<li>Guide</li>
+						</a>
+						<a href="/#print-preview">
+							<li>Print a preview</li>
+						</a>
+						<a href="/#team">
+							<li>Team</li>
+						</a>
+						<a href="/feedback">
+							<li>Leave us a Feedback</li>
+						</a>
+					</ul>
+				</div>
+			</div>
+
+			<!-- Desktop navbar -->
 			<ul
-				class="flex md:max-w-3xl w-full gap-4 justify-between mx-auto text-2xl md:text-base min-h-[3rem]"
+				class="hidden md:flex md:max-w-3xl w-full gap-4 justify-between mx-auto text-2xl md:text-base min-h-[3rem]"
 			>
 				<a
 					href="/#how-to"
 					class="opacity-60 hover:opacity-100 transition-opacity flex gap-2 items-center"
 				>
 					<Fa icon={faBook} size={navIconsSize} />
-					<li class="hidden md:block">How to use the MAP</li>
+					<li class="hidden md:block">Guide</li>
 				</a>
 				<a
 					href="/#print-preview"
@@ -93,3 +129,10 @@
 		</div>
 	</nav>
 </header>
+
+<style>
+	.open {
+		transform: translateX(0);
+		transition: transform 0.2s ease-out;
+	}
+</style>

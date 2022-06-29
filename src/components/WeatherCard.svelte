@@ -80,7 +80,7 @@
 </script>
 
 <div
-	class="fixed top-14 p-4 flex flex-col gap-4 left-[5%] min-h-fit bg-white max-w-[90%] rounded-lg shadow-lg -translate-x-[110%] overflow-x-hidden transition-transform md:left-3 md:mx-0 md:max-w-md z-40"
+	class="fixed inset-0 p-4 flex flex-col gap-4 min-h-full bg-white rounded-lg shadow-lg -translate-x-[110%] overflow-x-hidden transition-transform md:top-14 md:min-h-fit md:left-3 md:mx-0 md:max-w-md z-40"
 	class:active
 >
 	<!-- Action header -->
@@ -137,7 +137,7 @@
 		</div>
 	{/if}
 	<!-- Weather API reference -->
-	<div>
+	<div class="mt-auto">
 		<p class="my-0 text-xs text-center font-light">
 			Weather data from <a
 				href="https://openweathermap.org/"
