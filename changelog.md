@@ -2,6 +2,7 @@
 
 ### Features
 
+- Support for caches via Redis
 - Weather widget; Data by Openweathermap
 - Weather details by windy.com
 - Touch ups to final styiling and new card description in how-to section

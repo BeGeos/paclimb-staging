@@ -1,0 +1,1 @@
+export { cache } from './client';

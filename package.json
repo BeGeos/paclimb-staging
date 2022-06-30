@@ -27,6 +27,8 @@
 	"dependencies": {
 		"@fortawesome/free-solid-svg-icons": "^6.1.1",
 		"@mapbox/mapbox-gl-geocoder": "^5.0.0",
+		"crypto-js": "^4.1.1",
+		"ioredis": "^5.1.0",
 		"lodash": "^4.17.21",
 		"mapbox-gl": "^2.7.1",
 		"sugarss": "^4.0.1",

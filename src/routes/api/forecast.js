@@ -4,23 +4,35 @@ import { http_200, http_500 } from '@http/status';
 // Stores
 import { weather } from '@stores/files/weatherMock.json';
 
-// HTTP Weather Client
-import { WeatherAPIClient } from '@http/services';
+// Weather App
+import { WeatherAPIClient, WeatherAppConfig as weatherConfig } from '@http/services';
 
 // Logger
 import { logger } from '@log';
+
+// Redis Cache
+import { cache } from '@redis';
+
+// Utils
+import { getCacheKey } from '@utils';
 
 // Env
 const env = import.meta.env.VITE_ENVIRONMENT;
 
 const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
-export async function get({ request, url }) {
-	let reqMessage = `${request.method} ${url.pathname}`;
-	logger.info(reqMessage);
-
+export async function get({ url }) {
 	let lat = url.searchParams.get('lat');
 	let lon = url.searchParams.get('lon');
+
+	// Generate the key for the cache
+	let cacheKey = getCacheKey(
+		weatherConfig.CACHE_PREFIX,
+		JSON.stringify({
+			lat,
+			lon
+		})
+	);
 
 	let client = new WeatherAPIClient(OPENWEATHER_API_KEY, {
 		exclude: 'daily,minutely',
@@ -35,6 +47,8 @@ export async function get({ request, url }) {
 			let data = await response.json();
 
 			if (response.ok) {
+				cache.set(cacheKey, JSON.stringify(data), 'ex', weatherConfig.CACHE_TTL);
+
 				logger.info('Weather api request - OK');
 				return {
 					status: http_200.status,

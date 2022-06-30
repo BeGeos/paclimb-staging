@@ -5,6 +5,9 @@ import path from 'path';
 const config = {
 	kit: {
 		adapter: adapter(),
+		files: {
+			hooks: 'src/http/hooks'
+		},
 		vite: {
 			resolve: {
 				alias: {
@@ -12,7 +15,9 @@ const config = {
 					'@utils': path.resolve('./src/utils'),
 					'@stores': path.resolve('./src/stores'),
 					'@http': path.resolve('./src/http'),
-					'@log': path.resolve('./src/logger')
+					'@log': path.resolve('./src/logger'),
+					'@redis': path.resolve('./src/http/redis'),
+					'@hooks': path.resolve('./src/http/hooks')
 				}
 			}
 		}

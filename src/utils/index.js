@@ -1,3 +1,6 @@
+// Import libraries
+import MD5 from 'crypto-js/md5.js';
+
 // Global variables
 const AZIMUTH = {
 	north: 'North',
@@ -340,4 +343,17 @@ export const formatUnixDate = (unix, lang = 'en') => {
 
 export const getPercentage = (num) => {
 	return isNaN(num) ? '-' : Math.floor(num * 100);
+};
+
+// Cache utils
+export const getCacheKey = (prefix, data) => {
+	/**
+	 * Utils to form the key to put in the cache
+	 * The function will hash the data MD5 and attach the prefix
+	 * and return the key as String
+	 */
+
+	let hash = MD5(data);
+
+	return `${prefix}:${hash}`;
 };

@@ -8,7 +8,9 @@
 			"@utils": ["src/utils"],
 			"@stores": ["src/stores"],
 			"@http": ["src/http"],
-			"@log": ["src/logger"]
+			"@log": ["src/logger"],
+			"@redis": ["src/http/redis"],
+			"@hooks": ["src/http/hooks"]
 		}
 	},
 	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte"]
