@@ -1,5 +1,9 @@
+<script context="module">
+	export const prerender = true;
+</script>
+
 <script>
-	import Feedback from '../../components/Feedback.svelte';
+	import Feedback from '@components/Feedback.svelte';
 </script>
 
 <svelte:head>
