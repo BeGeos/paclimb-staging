@@ -1,21 +1,10 @@
-// Logger
-import { logger } from '@log';
+import { sequence } from '@sveltejs/kit/hooks';
 
-// Handlers
+// Logger Middleware
+import { logRequestsHandler } from '@hooks/logs.hooks';
+
+// Cache Middlewares
 import { checkWeatherCacheHandler } from '@hooks/cache.hooks';
 
-/** @type {import('@sveltejs/kit').Handle} */
-export async function handle({ event, resolve }) {
-	let message = `${event.request.method} ${event.url.pathname}`;
-	logger.info(message);
-
-	// Weather api
-	if (event.url.pathname.startsWith('/api/forecast')) {
-		let { handled, response } = await checkWeatherCacheHandler(event);
-
-		if (handled) return new Response(response);
-	}
-
-	const response = await resolve(event);
-	return response;
-}
+// Middlewares - from first to last
+export const handle = sequence(logRequestsHandler, checkWeatherCacheHandler);

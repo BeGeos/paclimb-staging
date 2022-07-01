@@ -10,31 +10,32 @@ import { cache } from '@redis';
 // Utils
 import { getCacheKey } from '@utils';
 
-export const checkWeatherCacheHandler = async (event) => {
+// Weather cache
+/** @type {import('@sveltejs/kit').Handle} */
+export async function checkWeatherCacheHandler({ event, resolve }) {
 	/**
-	 * Handlers have handled as boolean to say if the task was handled
-	 * and response which is whatever is returned by the handling
+	 * Return the cached weather data if they are in cache
+	 * Otherwise forwards the request to endpoint
 	 */
 
-	let handled = false;
-	let response = {};
+	// Weather api
+	if (event.url.pathname.startsWith('/api/forecast')) {
+		let lat = event.url.searchParams.get('lat');
+		let lon = event.url.searchParams.get('lon');
 
-	let lat = event.url.searchParams.get('lat');
-	let lon = event.url.searchParams.get('lon');
+		let cacheHash = {
+			lat,
+			lon
+		};
 
-	let cacheHash = {
-		lat,
-		lon
-	};
+		let key = getCacheKey(weatherConfig.CACHE_PREFIX, JSON.stringify(cacheHash));
+		let cachedData = await cache.get(key);
 
-	let key = getCacheKey(weatherConfig.CACHE_PREFIX, JSON.stringify(cacheHash));
-	let data = await cache.get(key);
-
-	if (data) {
-		handled = true;
-		response = data;
-		logger.info('Weather Cache data - OK');
+		if (cachedData) {
+			logger.info('Weather Cache data - OK');
+			new Response(cachedData);
+		}
 	}
 
-	return { handled, response };
-};
+	return await resolve(event);
+}
