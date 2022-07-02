@@ -56,6 +56,8 @@
 	let windyParam;
 	let windowWidth;
 
+	let x = 0;
+	let y = 0;
 	let style = `${BASE_STYLE_URL}/${SATELLITE_ID}`;
 	let outdoor = false;
 	let satellite = true;
@@ -138,7 +140,7 @@
 		let localAzimuth = convertAzimuthFromTextToInt(azimuth.toLowerCase());
 		let localBearing;
 
-		if (!azimuth || localAzimuth === undefined) {
+		if (!azimuth || localAzimuth == undefined) {
 			localBearing = defaultBearing;
 		} else {
 			localBearing = localAzimuth + 180 > 360 ? localAzimuth - 180 : localAzimuth + 180;
@@ -154,16 +156,6 @@
 		if (window.innerWidth < 1024) {
 			filterActive = false;
 		}
-	};
-
-	const handleGeocoderResults = (e) => {
-		const { properties, place_type } = e.result;
-
-		if (place_type.includes('crag')) {
-			dataWalls = { properties };
-			cardVisible = true;
-		}
-		return;
 	};
 
 	const forwardGeocoder = (query) => {
@@ -238,8 +230,6 @@
 			zoom: 15,
 			mapboxgl: mapbox
 		});
-
-		geocoder.on('result', handleGeocoderResults);
 
 		// Set max boundries for zoom in/out of map
 		map.setMaxBounds(FINALE_LIGURE_MAX_BOUNDS);
@@ -422,7 +412,7 @@
 		on:closeCard={closeWallCard}
 	/>
 {/if}
-<Popup {roadName} {featureName} {featureLink} {show} handleClose={closePopup} />
+<Popup {roadName} {featureName} {featureLink} {show} {x} {y} handleClose={closePopup} />
 
 <style>
 	.active {
