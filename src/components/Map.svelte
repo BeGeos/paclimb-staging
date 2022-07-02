@@ -158,6 +158,16 @@
 		}
 	};
 
+	const handleMapboxSearch = (e) => {
+		const { properties, place_type } = e.result;
+
+		if (place_type.includes('crag')) {
+			dataWalls = { properties };
+			cardVisible = true;
+		}
+		return;
+	};
+
 	const forwardGeocoder = (query) => {
 		const matchingFeatures = [];
 		for (const feature of $falesie) {
@@ -230,6 +240,8 @@
 			zoom: 15,
 			mapboxgl: mapbox
 		});
+
+		geocoder.on('result', handleMapboxSearch);
 
 		// Set max boundries for zoom in/out of map
 		map.setMaxBounds(FINALE_LIGURE_MAX_BOUNDS);
