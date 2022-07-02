@@ -20,10 +20,12 @@
 		dispatch('viewMap');
 	};
 
-	const handleFlyFromResults = (e, x, y) => {
+	const handleFlyFromResults = (e, x, y, self, azimuth) => {
 		dispatch('flyFromResults', {
 			x,
-			y
+			y,
+			self,
+			azimuth
 		});
 	};
 
@@ -49,7 +51,7 @@
 				{#each crags as crag}
 					<li
 						class="min-w-full hover:bg-light-blue cursor-pointer p-2 font-normal text-base"
-						on:click={(e) => handleFlyFromResults(e, crag.x, crag.y)}
+						on:click={(e) => handleFlyFromResults(e, crag.x, crag.y, crag.self, crag.azimuth)}
 					>
 						{titleCase(crag.name)}
 					</li>

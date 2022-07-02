@@ -132,9 +132,11 @@ const formatResults = (results) => {
 	for (let crag of results) {
 		properties = crag.properties;
 		wall = {
+			self: crag,
 			name: properties.falesia,
 			x: properties.falesia_x,
-			y: properties.falesia_y
+			y: properties.falesia_y,
+			azimuth: properties.azimut
 		};
 		sector = properties.Settore.toLowerCase();
 

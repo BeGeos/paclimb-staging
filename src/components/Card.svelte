@@ -128,7 +128,7 @@
 </script>
 
 <div
-	class="fixed max-h-full bottom-0 left-0 text-sm bg-white rounded-lg rounded-b-none shadow-xl flex flex-col gap-4 p-6 z-40 overscroll-contain lg:overflow-y-auto lg:rounded-b-lg lg:left-[60%] lg:bottom-[20%] lg:text-base card-container"
+	class="fixed max-h-full bottom-0 left-0 text-sm bg-white rounded-lg rounded-b-none shadow-xl flex flex-col gap-4 p-6 z-20 overscroll-contain lg:overflow-y-auto lg:rounded-b-lg lg:left-[60%] lg:bottom-[10%] lg:text-base card-container"
 	class:active
 	class:small
 	class:medium
@@ -148,7 +148,7 @@
 	<div class="flex justify-between items-center mt-4">
 		<h3 class="uppercase font-Voltaire">{sector}</h3>
 		<span
-			class="text-2xl cursor-pointer"
+			class="text-4xl cursor-pointer lg:text-2xl"
 			on:click={() => {
 				resetCard();
 				handleClose();
@@ -157,14 +157,14 @@
 	</div>
 	<div class="flex justify-between">
 		<h2 class="font-Voltaire">{wall}</h2>
-		<div class="flex gap-2 items-center">
-			<Fa icon={faCompass} size="lg" />
-			<h2>{azimuth}</h2>
-		</div>
 	</div>
-	<div class="flex gap-4 font-light">
-		<p>Latitude: {latitude}</p>
-		<p>Longitude: {longitude}</p>
+	<div class="flex gap-4 font-light items-center">
+		<p class="m-0">Latitude: {latitude}˚</p>
+		<p class="flex-1 m-0">Longitude: {longitude}˚</p>
+		<div class="flex gap-2 items-center">
+			<Fa icon={faCompass} />
+			<p class="m-0 text-lg">{azimuth}</p>
+		</div>
 	</div>
 	{#if parking}
 		<div class="p-4 border rounded-lg border-black/40 flex flex-col gap-4" id="parking">

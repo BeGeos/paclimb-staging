@@ -5,6 +5,10 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 mapbox.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 export const FINALE_LIGURE_BBOX = [8.2836296, 44.1547898, 8.4371453, 44.2277226];
+export const FINALE_LIGURE_MAX_BOUNDS = [
+	[8.2836296, 44.1547898],
+	[8.4371453, 44.2277226]
+];
 
 export const addCursorToLayers = (map, layer) => {
 	map.on('mouseenter', layer, (e) => {

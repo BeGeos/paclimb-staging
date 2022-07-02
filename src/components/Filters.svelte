@@ -136,6 +136,8 @@
 							icon={faSun}
 							text="All day sun"
 							checked={allSun}
+							tooltip={true}
+							tooltipText="It considers more than 8 hours of Sun"
 							on:checkSunlight={() => {
 								if (allSun) return (allSun = false);
 								allSun = true;
@@ -146,6 +148,8 @@
 							icon={faMoon}
 							text="All day shadow"
 							checked={allShadow}
+							tooltip={true}
+							tooltipText="The crag never actually sees the Sun during the day"
 							on:checkSunlight={() => {
 								if (allShadow) return (allShadow = false);
 								allSun = false;

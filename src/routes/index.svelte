@@ -1,5 +1,5 @@
 <script>
-	import Body from '../components/Body.svelte';
+	import Body from '@components/Body.svelte';
 </script>
 
 <svelte:head>

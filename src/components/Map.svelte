@@ -27,7 +27,7 @@
 	import { convertAzimuthFromTextToInt } from '@utils';
 
 	// Import bounding boxes - for now just Finale Ligure
-	import { FINALE_LIGURE_BBOX } from '@utils/mapbox.js';
+	import { FINALE_LIGURE_BBOX, FINALE_LIGURE_MAX_BOUNDS } from '@utils/mapbox.js';
 
 	// Global variables
 	let BASE_STYLE_URL = import.meta.env.VITE_MAPBOX_BASE_STYLE_URL;
@@ -54,6 +54,7 @@
 	let featureName;
 	let featureLink;
 	let windyParam;
+	let windowWidth;
 
 	let x = 0;
 	let y = 0;
@@ -99,13 +100,7 @@
 
 			closePopup();
 			openWallCard();
-			flyToWall(map, wallX, wallY, azimuth);
-		});
-	};
-
-	const addEventParking = (map) => {
-		map.on('click', 'park', (e) => {
-			return;
+			flyToWallBestView(map, wallX, wallY, azimuth);
 		});
 	};
 
@@ -126,34 +121,22 @@
 		});
 	};
 
-	// const closeCardWhenDrag = (map) => {
-	// 	map.on('mousedown', (e) => {
-	// 		dataWalls = null;
-	// 	});
-	// };
-
 	const addClosePopup = (map) => {
-		map.on('mousedown', (e) => {
-			if (show) {
-				show = false;
-			}
-		});
-
-		map.on('touchstart', (e) => {
-			if (show) {
-				show = false;
-			}
+		container.addEventListener('pointerdown', (e) => {
+			if (show) return (show = false);
 		});
 	};
 
 	const flyToPark = (map, x, y) => {
-		// map.setBearing(0);
 		map.flyTo({
-			center: [x, y]
+			center: [x, y],
+			bearing: 0,
+			speed: 0.35,
+			curve: 1
 		});
 	};
 
-	const flyToWall = (map, x, y, azimuth) => {
+	const flyToWallBestView = (map, x, y, azimuth) => {
 		let localAzimuth = convertAzimuthFromTextToInt(azimuth.toLowerCase());
 		let localBearing;
 
@@ -162,17 +145,10 @@
 		} else {
 			localBearing = localAzimuth + 180 > 360 ? localAzimuth - 180 : localAzimuth + 180;
 		}
-		map.setBearing(localBearing);
-		map.flyTo({
-			center: [x, y]
-		});
-	};
-
-	const flyFromResults = (map, x, y) => {
-		map.setBearing(0);
 		map.flyTo({
 			center: [x, y],
-			speed: 1,
+			bearing: localBearing,
+			speed: 0.35,
 			curve: 1,
 			zoom: 16
 		});
@@ -222,7 +198,7 @@
 	};
 
 	// Map logic
-	const createMap = () => {
+	const createMap = async () => {
 		// Add map
 		map = new mapbox.Map({
 			container,
@@ -255,6 +231,9 @@
 			mapboxgl: mapbox
 		});
 
+		// Set max boundries for zoom in/out of map
+		map.setMaxBounds(FINALE_LIGURE_MAX_BOUNDS);
+
 		// closeCardWhenDrag(map);
 		addClosePopup(map);
 
@@ -280,11 +259,10 @@
 	const addControls = () => {
 		// Add geolocate control on map
 		if (map) {
-			map.addControl(geolocateControl);
-
 			// Add the control to the map.
 			// map.addControl(fullScreenControl);
 			map.addControl(navigationControl);
+			map.addControl(geolocateControl);
 
 			geocoderContainer.appendChild(geocoder.onAdd(map));
 		}
@@ -304,13 +282,12 @@
 		outdoor = !outdoor;
 		satellite = !satellite;
 		if (option === 'satellite') {
-			map.setStyle(`${BASE_STYLE_URL}/${SATELLITE_ID}`);
+			return map.setStyle(`${BASE_STYLE_URL}/${SATELLITE_ID}`);
 		}
 
 		if (option === 'outdoor') {
-			map.setStyle(`${BASE_STYLE_URL}/${OUTDOOR_ID}`);
+			return map.setStyle(`${BASE_STYLE_URL}/${OUTDOOR_ID}`);
 		}
-		return;
 	};
 
 	const handleWeatherDetails = (e) => {
@@ -340,6 +317,8 @@
 	}
 </script>
 
+<svelte:window bind:outerWidth={windowWidth} />
+
 <div
 	class="fixed inset-0 max-h-screen max-w-[100vw] bg-white -z-20 overflow-hidden overscroll-contain"
 	class:isForeground={visible}
@@ -349,6 +328,11 @@
 			<button
 				class="p-2 rounded-md bg-white shadow-lg flex items-center justify-center"
 				on:click={() => {
+					if (windowWidth <= 1024) {
+						// The card closes only on mobile when opening filters/weather
+						cardVisible = false;
+					}
+					closePopup();
 					weatherActive = false;
 					filterActive = true;
 				}}
@@ -358,6 +342,11 @@
 			<button
 				class="p-2 rounded-md bg-white shadow-lg flex items-center justify-center"
 				on:click={() => {
+					if (windowWidth <= 1024) {
+						// The card closes only on mobile when opening filters/weather
+						cardVisible = false;
+					}
+					closePopup();
 					filterActive = false;
 					weatherActive = true;
 				}}
@@ -382,7 +371,11 @@
 		<Filters
 			active={filterActive}
 			on:closeFilters={() => (filterActive = false)}
-			on:flyFromResults={(e) => flyFromResults(map, e.detail.x, e.detail.y)}
+			on:flyFromResults={(e) => {
+				dataWalls = e.detail.self;
+				flyToWallBestView(map, e.detail.x, e.detail.y, e.detail.azimuth);
+				cardVisible = true;
+			}}
 		/>
 		<WeatherCard
 			active={weatherActive}

@@ -50,14 +50,14 @@
 		<div class="w-full md:border-t-4 border-t border-black/40">
 			<!-- Mobile navbar -->
 			<div
-				class="min-h-[3rem] relative flex flex-col gap-2 cursor-pointer py-2 items-end md:hidden group"
+				class="min-h-[3rem] max-w-fit ml-auto relative flex flex-col gap-2 cursor-pointer py-2 items-end select-none md:hidden focus:outline-none group"
 				on:click={handleShowMenu}
 			>
 				<span class="w-8 h-1 bg-dark-blue rounded-full" />
 				<span class="w-6 h-1 bg-dark-blue rounded-full" />
 				<span class="w-3 h-1 bg-dark-blue rounded-full" />
 				<div
-					class="absolute overscroll-contain min-w-[50%] border-dark-blue border bg-light-blue top-[85%] -right-2 z-20 rounded-md p-6 translate-x-[110%] transition-transform  min-h-fit overflow-y-auto text-2xl text-center shadow-lg font-bold text-dark-blue"
+					class="absolute overscroll-contain min-w-[20rem] border-dark-blue border bg-light-blue top-[85%] -right-2 z-20 rounded-md p-6 translate-x-[110%] transition-transform  min-h-fit overflow-y-auto text-2xl text-center shadow-lg font-bold text-dark-blue"
 					class:open
 				>
 					<ul class="flex flex-col gap-6">
@@ -115,14 +115,6 @@
 				>
 					<Fa icon={faCommentDots} size={navIconsSize} />
 					<li class="hidden md:block">Feedback</li>
-					<span class="flex h-3 w-3">
-						<span
-							class="animate-ping absolute left-4 md:left-2 bottom-3 inline-flex h-3 w-3 rounded-full bg-danger-red"
-						/>
-						<span
-							class="absolute left-4 md:left-2 bottom-3 inline-flex rounded-full h-3 w-3 bg-danger-red"
-						/>
-					</span>
 					<FeedbackSection />
 				</a>
 			</ul>

@@ -32,7 +32,14 @@
 		param="rh"
 		on:openWeatherDetail
 	/>
-	<ConsoleWidget title="UVI" data={currentUVI} extension="" />
+	<ConsoleWidget
+		title="UVI"
+		data={currentUVI}
+		extension=""
+		param=""
+		selectable={false}
+		threshold={true}
+	/>
 	<ConsoleWidget
 		title="Wind Speed"
 		data={currentWindSpeed}
