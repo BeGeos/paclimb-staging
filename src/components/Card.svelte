@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { onMount, createEventDispatcher } from 'svelte';
 
 	// Font Awesome
@@ -20,18 +20,24 @@
 
 	// Utils
 	import { convertAzimuthToLetter } from '@utils';
-	import SunlightFilter from './SunlightFilter.svelte';
 
-	export let data;
+	// Types
+	import type { MapData } from '@types';
 
-	let slider;
-	let height;
-	let active = false;
-	let small = true;
-	let medium = false;
-	let large = false;
-	let touchstartY = 0;
-	let touchendY = 0;
+	type CardData = {
+		properties: MapData;
+	};
+
+	export let data: CardData;
+
+	let slider: HTMLElement;
+	let height: string;
+	let active: boolean = false;
+	let small: boolean = true;
+	let medium: boolean = false;
+	let large: boolean = false;
+	let touchstartY: number = 0;
+	let touchendY: number = 0;
 
 	const dispatch = createEventDispatcher();
 

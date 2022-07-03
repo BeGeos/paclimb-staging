@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
 	// Components
@@ -9,10 +9,10 @@
 	// Import Font awesome
 	import Fa from 'svelte-fa/src/fa.svelte';
 
-	export let icon;
-	export let text;
-	export let checked;
-	export let subtext;
+	export let icon: any;
+	export let text: string;
+	export let checked: boolean;
+	export let subtext: string;
 
 	const checkSunlightOptions = () => {
 		dispatch('checkSunlight', {
@@ -20,7 +20,7 @@
 		});
 	};
 
-	const slugify = (text) => {
+	const slugify = (text: string): string => {
 		return text
 			.split(/\s+/)
 			.map((c) => c.toLowerCase())

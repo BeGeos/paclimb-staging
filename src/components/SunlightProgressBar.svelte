@@ -1,28 +1,33 @@
-<script>
+<script lang="ts">
 	import { onMount } from 'svelte';
 
-	export let enabled;
+	// Types
+	type SliderInput = {
+		value?: number;
+	};
 
-	let sliderTrack;
-	let percentLower;
-	let percentUpper;
+	export let enabled: boolean;
 
-	let minGap = 0;
-	let sliderMaxValue = 24;
-	let upperValue;
-	let lowerValue;
-	let upperSlider = {};
-	let lowerSlider = {};
+	let sliderTrack: HTMLElement;
+	let percentLower: number;
+	let percentUpper: number;
 
-	const getPercentage = (value, maxValue = 24) => {
+	let minGap: number = 0;
+	let sliderMaxValue: number = 24;
+	let upperValue: number;
+	let lowerValue: number;
+	let upperSlider: HTMLInputElement | SliderInput = {};
+	let lowerSlider: HTMLInputElement | SliderInput = {};
+
+	const getPercentage = (value: number, maxValue: number = 24) => {
 		return (value / maxValue) * 100;
 	};
 
-	const setUpperValue = (value) => {
+	const setUpperValue = (value: number) => {
 		upperSlider.value = value;
 	};
 
-	const setLowerValue = (value) => {
+	const setLowerValue = (value: number) => {
 		lowerSlider.value = value;
 	};
 

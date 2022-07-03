@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	// import stores
 	import { sectors } from '@stores';
 

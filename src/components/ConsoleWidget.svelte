@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	// Svelte
 	import { createEventDispatcher } from 'svelte';
 
@@ -12,28 +12,34 @@
 	// Components
 	import Tooltip from '@components/Tooltip.svelte';
 
-	export let title;
-	export let data;
-	export let extension;
-	export let param;
-	export let selectable = true;
-	export let threshold = false;
+	// Types
+	interface WeatherConfig {
+		threshold: number;
+		dangerText: string;
+	}
+
+	export let title: string;
+	export let data: number | string;
+	export let extension: string;
+	export let param: string;
+	export let selectable: boolean = true;
+	export let threshold: boolean = false;
 
 	let measure = data === '-' ? '' : extension;
 
 	let dispatch = createEventDispatcher();
 
-	const handleClick = (detail) => {
+	const handleClick = (detail: string): void => {
 		if (!detail) return;
 
 		dispatch('openWeatherDetail', {
 			param: detail
 		});
 	};
-	let dangerText = '';
-	let danger = false;
+	let dangerText: string = '';
+	let danger: boolean = false;
 
-	const uviConfig = {
+	const uviConfig: WeatherConfig = {
 		threshold: 8,
 		dangerText: 'The UVI is quite high. Make sure to wear sunscreen and stay hydrated'
 	};

@@ -1,5 +1,5 @@
-<script>
-	export let visible;
+<script lang="ts">
+	export let visible: boolean;
 </script>
 
 <div class:visible class="opacity-0">

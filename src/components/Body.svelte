@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Footer from '@components/Footer.svelte';
 	import Hero from '@components/Hero.svelte';
 	import HowToSection from '@components/sections/howToSection.svelte';
@@ -6,7 +6,7 @@
 	import PreviewSection from '@components/sections/PreviewSection.svelte';
 	import Section from '@components/Section.svelte';
 
-	let visible = false;
+	let visible: boolean = false;
 
 	const handleOpenMap = () => {
 		visible = !visible;

@@ -1,10 +1,10 @@
-<script>
+<script lang="ts">
 	// Font Awesome
 	import Fa from 'svelte-fa/src/fa.svelte';
 
-	export let link;
-	export let text;
-	export let icon = false;
+	export let link: string | null;
+	export let text: string;
+	export let icon: boolean | any = false;
 </script>
 
 <a

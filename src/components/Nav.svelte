@@ -1,10 +1,10 @@
-<script>
+<script lang="ts">
 	// Import components
 	import FeedbackSection from '@components/sections/FeedbackSection.svelte';
 
 	// Import static
-	let logoMobile = './images/icons/logo-mobile.svg';
-	let logoDesktop = './images/icons/logo-scritta.svg';
+	let logoMobile: string = './images/icons/logo-mobile.svg';
+	let logoDesktop: string = './images/icons/logo-scritta.svg';
 
 	// Font Awesome
 	import Fa from 'svelte-fa/src/fa.svelte';
@@ -16,8 +16,8 @@
 		faCommentDots
 	} from '@fortawesome/free-solid-svg-icons/index.es';
 
-	let open = false;
-	let navIconsSize = 'sm';
+	let open: boolean = false;
+	let navIconsSize: string = 'sm';
 
 	const handleShowMenu = () => {
 		open = !open;

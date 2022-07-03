@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Backdrop from '@components/Backdrop.svelte';
 </script>
 

@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 	import Backdrop from '@components/Backdrop.svelte';
 
-	let previewImage = './images/preview-map-to-download.png';
+	let previewImage: string = './images/preview-map-to-download.png';
 </script>
 
 <Backdrop backdropColor="#CFE4E7" opacity={0.8} />

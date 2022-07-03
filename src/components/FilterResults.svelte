@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
 	// Font awesome
@@ -20,7 +20,13 @@
 		dispatch('viewMap');
 	};
 
-	const handleFlyFromResults = (e, x, y, self, azimuth) => {
+	const handleFlyFromResults = (
+		e: MouseEvent,
+		x: string,
+		y: string,
+		self: object,
+		azimuth: string
+	) => {
 		dispatch('flyFromResults', {
 			x,
 			y,

@@ -1,16 +1,16 @@
-<script>
+<script lang="ts">
 	// Import utils
 	import { parseTimeInterval, getPartOfDay, getStartPosition, getEndPosition } from '@utils';
 
-	export let period = null;
-	export let title = '';
-	export let fake = false;
+	export let period: string | null = null;
+	export let title: string = '';
+	export let fake: boolean = false;
 
-	let periodStart;
-	let periodEnd;
-	let periodRatio;
-	let periodStartPosition;
-	let periodEndPosition;
+	let periodStart: string;
+	let periodEnd: string;
+	let periodRatio: number;
+	let periodStartPosition: number;
+	let periodEndPosition: number;
 
 	$: if (period) {
 		[periodStart, periodEnd] = parseTimeInterval(period);

@@ -1,8 +1,14 @@
-<script>
-	export let backdropColor;
-	export let opacity;
+<script lang="ts">
+	export let backdropColor: string;
+	export let opacity: number;
 
-	let styles = {
+	// Type
+	type Style = {
+		bg: string;
+		opacity: number;
+	};
+
+	let styles: Style = {
 		bg: backdropColor,
 		opacity: opacity || 0.8
 	};

@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 	import Backdrop from '@components/Backdrop.svelte';
 
-	let cardPreview = './images/hd-card-walls.svg';
+	let cardPreview: string = './images/hd-card-walls.svg';
 </script>
 
 <Backdrop backdropColor="#CFE4E7" opacity={0.8} />

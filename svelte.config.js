@@ -1,8 +1,11 @@
 import adapter from '@sveltejs/adapter-auto';
+import preprocess from 'svelte-preprocess';
 import path from 'path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
+	preprocess: preprocess(),
+
 	kit: {
 		adapter: adapter(),
 		files: {
@@ -17,7 +20,8 @@ const config = {
 					'@http': path.resolve('./src/http'),
 					'@log': path.resolve('./src/logger'),
 					'@redis': path.resolve('./src/http/redis'),
-					'@hooks': path.resolve('./src/http/hooks')
+					'@hooks': path.resolve('./src/http/hooks'),
+					'@types': path.resolve('./src/types')
 				}
 			}
 		}

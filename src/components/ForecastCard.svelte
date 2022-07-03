@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	// Font awesome
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faDroplet } from '@fortawesome/free-solid-svg-icons/index.es';
@@ -6,11 +6,11 @@
 	// Utils
 	import { formatUnixDate, getPercentage } from '@utils';
 
-	export let temp;
-	export let iconUrl;
-	export let dt;
-	export let rainProbability;
-	export let altText;
+	export let temp: number;
+	export let iconUrl: string;
+	export let dt: number;
+	export let rainProbability: number;
+	export let altText: string;
 
 	let [day, weekDay, hour] = formatUnixDate(dt);
 </script>

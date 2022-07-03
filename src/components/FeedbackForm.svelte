@@ -1,5 +1,5 @@
-<script>
-	let formActionEmail = 'https://www.actionforms.io/e/r/paclim-3d-map';
+<script lang="ts">
+	let formActionEmail: string = 'https://www.actionforms.io/e/r/paclim-3d-map';
 </script>
 
 <form action={formActionEmail} method="POST" class="flex flex-col gap-6 my-16">

@@ -1,12 +1,12 @@
-<script>
+<script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { roadColors } from '../stores';
+	import { roadColors } from '@stores';
 
 	const dispatch = createEventDispatcher();
 
-	export let road;
-	export let x;
-	export let y;
+	export let road: string | undefined;
+	export let x: string | number | undefined;
+	export let y: string | number | undefined;
 
 	const flyToPark = () => {
 		dispatch('flyToPark', {

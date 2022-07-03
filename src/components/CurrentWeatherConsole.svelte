@@ -1,13 +1,16 @@
-<script>
+<script lang="ts">
 	// Components
 	import ConsoleWidget from '@components/ConsoleWidget.svelte';
 
-	export let currentRain;
-	export let currentPressure;
-	export let currentHumidity;
-	export let currentUVI;
-	export let currentWindSpeed;
-	export let currentClouds;
+	// Types
+	type ConsoleData = string | number;
+
+	export let currentRain: ConsoleData;
+	export let currentPressure: ConsoleData;
+	export let currentHumidity: ConsoleData;
+	export let currentUVI: ConsoleData;
+	export let currentWindSpeed: ConsoleData;
+	export let currentClouds: ConsoleData;
 </script>
 
 <div class="grid gap-4 grid-cols-3 auto-rows-max font-normal text-xs lg:text-sm">

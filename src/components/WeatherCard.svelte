@@ -1,14 +1,17 @@
-<script>
-	export let active;
-	export let location;
-	export let lat;
-	export let lon;
+<script lang="ts">
+	export let active: boolean;
+	export let location: string;
+	export let lat: number;
+	export let lon: number;
 
 	import { createEventDispatcher, onMount } from 'svelte';
 
 	// Utils
 	import { formatUnixDate, getTimezoneDate } from '@utils';
 	import { fetchWeather } from '@utils/api';
+
+	// Types
+	import type { WeatherOneCallData, WeatherHourlyData } from '@types';
 
 	// Font awesome
 	import Fa from 'svelte-fa/src/fa.svelte';
@@ -24,27 +27,27 @@
 		dispatch('closeWeather');
 	};
 
-	let weather = false;
-	let error;
+	let weather: WeatherOneCallData;
+	let error: string;
 
-	let iconUrl = import.meta.env.VITE_OPENWEATHER_ICON_URL;
+	let iconUrl: any = import.meta.env.VITE_OPENWEATHER_ICON_URL;
 
-	let currentDate;
-	let timezoneOffset;
-	let adjustedDate;
-	let day;
-	let weekDay;
-	let hour;
-	let currentTemp;
-	let currentMainWeather;
-	let currentMainIcon;
-	let currentPressure;
-	let currentHumidity;
-	let currentUVI;
-	let currentClouds;
-	let currentWindSpeed;
-	let currentRain;
-	let weatherHourlyForecast = [];
+	let currentDate: number;
+	let timezoneOffset: number;
+	let adjustedDate: string;
+	let day: string;
+	let weekDay: string;
+	let hour: number;
+	let currentTemp: number;
+	let currentMainWeather: string;
+	let currentMainIcon: string;
+	let currentPressure: number;
+	let currentHumidity: number;
+	let currentUVI: number;
+	let currentClouds: number;
+	let currentWindSpeed: number;
+	let currentRain: number | string | undefined;
+	let weatherHourlyForecast: WeatherHourlyData[];
 
 	$: if (weather) {
 		// Format JSON response for time/date

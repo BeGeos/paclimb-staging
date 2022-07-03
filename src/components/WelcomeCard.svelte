@@ -1,6 +1,6 @@
-<script>
-	export let visible;
-	export let handleOpen;
+<script lang="ts">
+	export let visible: boolean;
+	export let handleOpen: any;
 </script>
 
 <div

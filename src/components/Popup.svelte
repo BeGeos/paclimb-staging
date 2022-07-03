@@ -1,16 +1,15 @@
-<script>
+<script lang="ts">
 	import { roadColors } from '@stores';
 
 	// Font Awesome
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faRoute } from '@fortawesome/free-solid-svg-icons/index.es';
 
-	export let handleClose;
-
-	export let roadName;
-	export let featureName;
-	export let featureLink;
-	export let show;
+	export let handleClose: Function;
+	export let roadName: string;
+	export let featureName: string;
+	export let featureLink: string;
+	export let show: boolean;
 </script>
 
 <div

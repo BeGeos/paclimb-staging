@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	export let lat;
-	export let lon;
-	export let detail;
+	export let lat: number;
+	export let lon: number;
+	export let detail: string;
 
 	const dispatch = createEventDispatcher();
 

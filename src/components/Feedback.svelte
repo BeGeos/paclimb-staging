@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 	import FeedbackForm from '@components/FeedbackForm.svelte';
 	import Footer from '@components/Footer.svelte';
-	let illustration = './images/reviews_illustration.svg';
+	let illustration: string = './images/reviews_illustration.svg';
 </script>
 
 <main class="my-8">
