@@ -1,3 +1,6 @@
+// External libs
+import 'dotenv/config';
+
 import Redis from 'ioredis';
 
 import { logger } from '@log';
@@ -8,7 +11,7 @@ const redisConfig = {
 };
 
 // TODO upgrade 2 db for staging and prod when data load is sufficient
-const rediss = import.meta.env.VITE_UPSTASH_REDIS_DB;
+const rediss = process.env.UPSTASH_REDIS_DB_URL;
 const redis = new Redis(rediss, redisConfig);
 
 redis.on('connect', () => {

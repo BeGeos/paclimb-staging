@@ -1,7 +1,10 @@
+// External libs
+import 'dotenv/config';
+
 // HTTP client for the weather app OpenWeatherMap
 
 export class WeatherAPIClient {
-	apiBaseUrl = import.meta.env.VITE_OPENWEATHER_ONE_CALL_URL;
+	apiBaseUrl = process.env.OPENWEATHER_ONE_CALL_URL;
 
 	constructor(apiKey, options = {}) {
 		this.apiKey = apiKey;

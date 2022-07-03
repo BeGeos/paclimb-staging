@@ -1,8 +1,18 @@
+<script context="module">
+	export const load = async () => {
+		return {
+			props: {
+				env: import.meta.env.VITE_ENVIRONMENT
+			}
+		};
+	};
+</script>
+
 <script>
 	import '../app.css';
 	import Nav from '@components/Nav.svelte';
 
-	let environment = import.meta.env.VITE_ENVIRONMENT;
+	export let env;
 </script>
 
 <svelte:head>
@@ -19,7 +29,7 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:image" itemprop="image" content="./images/blue-preview-link.png" />
 
-	{#if environment === 'prod'}
+	{#if env === 'prod'}
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-KME9KDHHJB"></script>
 		<script>

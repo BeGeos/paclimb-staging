@@ -33,7 +33,7 @@ export async function checkWeatherCacheHandler({ event, resolve }) {
 
 		if (cachedData) {
 			logger.info('Weather Cache data - OK');
-			new Response(cachedData);
+			return new Response(cachedData);
 		}
 	}
 

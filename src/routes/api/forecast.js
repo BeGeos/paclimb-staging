@@ -1,3 +1,6 @@
+// External libs
+import 'dotenv/config';
+
 // HTTP Status
 import { http_200, http_500 } from '@http/status';
 
@@ -19,7 +22,7 @@ import { getCacheKey } from '@utils';
 // Env
 const env = import.meta.env.VITE_ENVIRONMENT;
 
-const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY;
 
 export async function get({ url }) {
 	let lat = url.searchParams.get('lat');
