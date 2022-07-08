@@ -1,8 +1,20 @@
 // Import libraries
 import MD5 from 'crypto-js/md5.js';
 
+// Types
+interface AzimuthMapper {
+	north: string | number;
+	'north-east': string | number;
+	east: string | number;
+	'south-east': string | number;
+	south: string | number;
+	'south-west': string | number;
+	west: string | number;
+	'north-west': string | number;
+}
+
 // Global variables
-const AZIMUTH = {
+const AZIMUTH: AzimuthMapper = {
 	north: 'North',
 	'north-east': 'Northeast',
 	east: 'East',
@@ -13,16 +25,16 @@ const AZIMUTH = {
 	'north-west': 'Northwest'
 };
 
-const MIN_HOUR_OF_SUNLIGHT = 8;
-const MAX_HOUR_OF_SUNLIGHT = 16;
+const MIN_HOUR_OF_SUNLIGHT: number = 8;
+const MAX_HOUR_OF_SUNLIGHT: number = 16;
 
-export const parseTimeInterval = (interval) => {
+export const parseTimeInterval = (interval: string): number[] => {
 	if (interval === '-') return [];
 	return interval.split('-').map((v) => parseInt(v));
 };
 
-export const convertAzimuthToLetter = (azimuth) => {
-	let mapper = {
+export const convertAzimuthToLetter = (azimuth: string): string => {
+	let mapper: any = {
 		north: 'N',
 		northeast: 'NE',
 		east: 'E',
@@ -36,8 +48,8 @@ export const convertAzimuthToLetter = (azimuth) => {
 	return mapper[azimuth];
 };
 
-export const convertAzimuthFromTextToInt = (azimuth) => {
-	let mapper = {
+export const convertAzimuthFromTextToInt = (azimuth: string) => {
+	let mapper: any = {
 		north: 0,
 		northeast: 45,
 		east: 90,
@@ -47,12 +59,11 @@ export const convertAzimuthFromTextToInt = (azimuth) => {
 		west: 270,
 		northwest: 315
 	};
-	if (!isNaN(azimuth)) throw new Error('Azimuth must be a string');
 
 	return mapper[azimuth];
 };
 
-export const getPartOfDay = (start, end, hoursOfDay = 24) => {
+export const getPartOfDay = (start: number, end: number, hoursOfDay = 24) => {
 	let delta = end - start;
 	if (isNaN(delta)) return 0;
 	let ratio = (delta / hoursOfDay) * 100;
@@ -60,15 +71,15 @@ export const getPartOfDay = (start, end, hoursOfDay = 24) => {
 	return Math.floor(ratio);
 };
 
-export const getStartPosition = (start, hoursOfDay = 24) => {
+export const getStartPosition = (start: number, hoursOfDay = 24) => {
 	return (start / hoursOfDay) * 100;
 };
 
-export const getEndPosition = (end, hoursOfDay = 24) => {
+export const getEndPosition = (end: number, hoursOfDay = 24) => {
 	return (end / hoursOfDay) * 100;
 };
 
-export const titleCase = (text) => {
+export const titleCase = (text: string) => {
 	return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
@@ -114,7 +125,7 @@ const getAllowedExposures = (exposures) => {
 	return allowedExposures;
 };
 
-const formatHoursOfSunlight = (interval) => {
+const formatHoursOfSunlight = (interval: string): number[] => {
 	return interval.split('-').map((hour) => parseInt(hour));
 };
 
@@ -168,7 +179,7 @@ const cleanResults = (results) => {
 	return output;
 };
 
-const filterByArea = (area, data) => {
+const filterByArea = (area: string, data) => {
 	let properties;
 	let sector;
 	let results = [];
@@ -185,7 +196,7 @@ const filterByArea = (area, data) => {
 	return results;
 };
 
-const filterByExposure = (exposure, data) => {
+const filterByExposure = (exposure: string, data) => {
 	let properties;
 	let results = [];
 

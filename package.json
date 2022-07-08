@@ -15,6 +15,7 @@
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/adapter-vercel": "next",
 		"@sveltejs/kit": "next",
+		"@types/crypto-js": "^4.1.1",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
 		"autoprefixer": "^10.4.4",
@@ -35,6 +36,7 @@
 	"dependencies": {
 		"@fortawesome/free-solid-svg-icons": "^6.1.1",
 		"@mapbox/mapbox-gl-geocoder": "^5.0.0",
+		"@types/mapbox-gl": "^2.7.3",
 		"crypto-js": "^4.1.1",
 		"dotenv": "^16.0.1",
 		"ioredis": "^5.1.0",

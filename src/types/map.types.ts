@@ -22,3 +22,5 @@ export interface MapData {
 	summr: string;
 	winter: string;
 }
+
+export type MapBoundingBox = number[];
