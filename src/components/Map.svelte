@@ -23,11 +23,11 @@
 
 	// JS utils and functions
 	import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
-	import { mapbox, MapboxGeocoder, addCursorToLayers, addFlytTo } from '@utils/mapbox.js';
+	import { mapbox, MapboxGeocoder, addCursorToLayers, addFlytTo } from '@utils/mapbox';
 	import { convertAzimuthFromTextToInt } from '@utils';
 
 	// Import bounding boxes - for now just Finale Ligure
-	import { FINALE_LIGURE_BBOX, FINALE_LIGURE_MAX_BOUNDS } from '@utils/mapbox.js';
+	import { FINALE_LIGURE_BBOX, FINALE_LIGURE_MAX_BOUNDS } from '@utils/mapbox';
 
 	// Global variables
 	let BASE_STYLE_URL = import.meta.env.VITE_MAPBOX_BASE_STYLE_URL;
