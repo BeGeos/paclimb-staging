@@ -131,13 +131,12 @@
 					<SunlightFilter name="summer" />
 				</div>
 				<div id="time-of-day" class="flex flex-col gap-2 text-sm">
-					<div class="flex justify-between">
+					<div class="flex gap-2">
 						<RadioSunlight
 							icon={faSun}
 							text="All day sun"
 							checked={allSun}
-							tooltip={true}
-							tooltipText="It considers more than 8 hours of Sun"
+							subtext="more than 8 hours of Sun"
 							on:checkSunlight={() => {
 								if (allSun) return (allSun = false);
 								allSun = true;
@@ -148,8 +147,7 @@
 							icon={faMoon}
 							text="All day shadow"
 							checked={allShadow}
-							tooltip={true}
-							tooltipText="The crag never actually sees the Sun during the day"
+							subtext="no Sun all day"
 							on:checkSunlight={() => {
 								if (allShadow) return (allShadow = false);
 								allSun = false;

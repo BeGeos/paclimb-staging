@@ -12,8 +12,7 @@
 	export let icon;
 	export let text;
 	export let checked;
-	export let tooltip = false;
-	export let tooltipText = '';
+	export let subtext;
 
 	const checkSunlightOptions = () => {
 		dispatch('checkSunlight', {
@@ -29,12 +28,12 @@
 	};
 </script>
 
-<label class="relative w-28 group">
-	{#if tooltip}
-		<Tooltip text={tooltipText} />
-	{/if}
-	<span class="font-normal block text-center mb-2">{text}</span>
+<label class="relative w-28 flex-1 group">
+	<span class="font-normal block text-center">{text}</span>
 	<!-- <input type="hidden" name={radioGroup} value="False" /> -->
+	<div class="text-[.65em] min-w-full text-center font-light mb-2 text-gray-500">
+		{subtext}
+	</div>
 	<input
 		type="checkbox"
 		name="hours-of-day"
