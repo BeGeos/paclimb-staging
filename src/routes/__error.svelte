@@ -17,7 +17,7 @@
 	let debug = import.meta.env.VITE_DEBUG === 'true';
 </script>
 
-<div class="min-w-full min-h-full flex flex-col gap-8 p-12">
+<div class="min-w-full min-h-full flex flex-col gap-2 p-12">
 	{#if debug}
 		<h4>Status: {status}</h4>
 		<h4>Error: {error.message}</h4>

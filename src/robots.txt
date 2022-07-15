@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /assets/
+
+Sitemap: https://www.paclimbmap.com/sitemap.xml
+Sitemap: https://paclimbmap.com/sitemap.xml

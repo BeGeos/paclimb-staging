@@ -2,6 +2,7 @@
 
 ### Features
 
+- Added sitemap and robots.txt
 - Support for caches via Redis
 - Weather widget; Data by Openweathermap
 - Weather details by windy.com

@@ -3,7 +3,7 @@
 
 	// Font awesome
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import { faArrowRight } from '@fortawesome/free-solid-svg-icons/index.es';
+	import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/index.es';
 
 	// Utils
 	import { titleCase } from '@utils';
@@ -34,7 +34,7 @@
 
 <div class="max-w-full text-2xl lg:text-base flex justify-between items-center">
 	<div class="cursor-pointer" on:click={handleCloseResults}>
-		<Fa icon={faArrowRight} />
+		<Fa icon={faArrowLeft} />
 	</div>
 	<p
 		class="m-0 text-sm cursor-pointer decoration-dotted hover:underline lg:text-base"
