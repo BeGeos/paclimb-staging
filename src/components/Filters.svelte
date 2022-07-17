@@ -26,7 +26,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	const handleClose = (e: CustomEvent, toResults: boolean = false) => {
+	const handleClose = (e: MouseEvent | CustomEvent, toResults: boolean = false) => {
 		dispatch('closeFilters');
 		if (toResults) {
 			return (appear = true);
@@ -36,7 +36,7 @@
 
 	export let active: boolean;
 
-	let filterForm;
+	let filterForm: HTMLFormElement;
 	let sunlight: SvelteComponent;
 
 	let exposureStar: string = './exposureStar.svg';

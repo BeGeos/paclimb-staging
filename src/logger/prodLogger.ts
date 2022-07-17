@@ -9,6 +9,7 @@ export const prodLogger = () => {
 		format: combine(timestamp(), formatLogger),
 		transports: [
 			new transports.Console()
+			// TODO set stream transport - DataDog or else
 			// new transports.File({ level: 'error', filename: 'logs/error.log', format: json() }),
 			// new transports.File({ level: 'info', filename: 'logs/combined.log', format: json() })
 		]

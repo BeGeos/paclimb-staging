@@ -1,6 +1,9 @@
 // Weather config
 import { WeatherAppConfig as weatherConfig } from '@http/services';
 
+// Types
+import type { Handle } from '@sveltejs/kit';
+
 // Logger
 import { logger } from '@log';
 
@@ -11,8 +14,7 @@ import { cache } from '@redis';
 import { getCacheKey } from '@utils';
 
 // Weather cache
-/** @type {import('@sveltejs/kit').Handle} */
-export async function checkWeatherCacheHandler({ event, resolve }) {
+export const checkWeatherCacheHandler: Handle = async ({ event, resolve }) => {
 	/**
 	 * Return the cached weather data if they are in cache
 	 * Otherwise forwards the request to endpoint
@@ -38,4 +40,4 @@ export async function checkWeatherCacheHandler({ event, resolve }) {
 	}
 
 	return await resolve(event);
-}
+};

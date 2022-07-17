@@ -1,7 +1,11 @@
 // Import libraries
+import type { FilterForm } from '@types';
 import MD5 from 'crypto-js/md5.js';
 
 // Types
+import type { Feature } from 'geojson';
+import type { MapData } from '@types';
+
 interface AzimuthMapper {
 	north: string | number;
 	'north-east': string | number;
@@ -11,6 +15,15 @@ interface AzimuthMapper {
 	'south-west': string | number;
 	west: string | number;
 	'north-west': string | number;
+	[key: string]: string | number;
+}
+
+interface WallFilterResults {
+	self: Feature;
+	name: string;
+	x: string | number;
+	y: string | number;
+	azimuth: string;
 }
 
 // Global variables
@@ -33,8 +46,8 @@ export const parseTimeInterval = (interval: string): number[] => {
 	return interval.split('-').map((v) => parseInt(v));
 };
 
-export const convertAzimuthToLetter = (azimuth: string): string => {
-	let mapper: any = {
+export const convertAzimuthToLetter = (azimuth: string) => {
+	let mapper: { [key: string]: string } = {
 		north: 'N',
 		northeast: 'NE',
 		east: 'E',
@@ -49,7 +62,7 @@ export const convertAzimuthToLetter = (azimuth: string): string => {
 };
 
 export const convertAzimuthFromTextToInt = (azimuth: string) => {
-	let mapper: any = {
+	let mapper: { [key: string]: number } = {
 		north: 0,
 		northeast: 45,
 		east: 90,
@@ -83,19 +96,19 @@ export const titleCase = (text: string) => {
 	return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
-export const formatFilterFormData = (data) => {
+export const formatFilterFormData = (data: FormData) => {
 	return {
-		area: data.get('area'),
+		area: '' + data.get('area'),
 		timeOfyear: {
 			autumn: !!data.get('autumn'),
 			winter: !!data.get('winter'),
 			spring: !!data.get('spring'),
 			summer: !!data.get('summer')
 		},
-		sunOptions: data.get('hours-of-day'),
+		sunOptions: '' + data.get('hours-of-day'),
 		hoursOfDay: {
-			min: +data.get('lower-suntime'),
-			max: +data.get('upper-suntime')
+			min: +(data.get('lower-suntime') || 0),
+			max: +(data.get('upper-suntime') || 0)
 		},
 		exposure: {
 			north: !!data.get('north'),
@@ -114,7 +127,7 @@ export const getSectorOptions = (sectors) => {
 	return sectors.map((sector) => sector.properties.Settore.toLowerCase());
 };
 
-const getAllowedExposures = (exposures) => {
+const getAllowedExposures = (exposures: { [key: string]: boolean }) => {
 	let allowedExposures = [];
 	for (const [key, value] of Object.entries(exposures)) {
 		if (value) {
@@ -129,30 +142,32 @@ const formatHoursOfSunlight = (interval: string): number[] => {
 	return interval.split('-').map((hour) => parseInt(hour));
 };
 
-const formatResults = (results) => {
+const formatResults = (results: Array<Feature>) => {
 	// Return a formatted version from results
 	// to be displayed and used in the filterResults component
 	let properties;
-	let wall;
-	let sector;
-	let output = {};
+	let wall = {};
+	let sector: string = '';
+	let output: { [key: string]: Array<WallFilterResults | {}> } = {};
 
 	// TODO Special case -> call function for similar results
 	if (results.length === 0) return {};
 
 	for (let crag of results) {
 		properties = crag.properties;
-		wall = {
-			self: crag,
-			name: properties.falesia,
-			x: properties.falesia_x,
-			y: properties.falesia_y,
-			azimuth: properties.azimut
-		};
-		sector = properties.Settore.toLowerCase();
+		if (properties) {
+			wall = {
+				self: crag,
+				name: properties.falesia,
+				x: properties.falesia_x,
+				y: properties.falesia_y,
+				azimuth: properties.azimut
+			};
+			sector = properties.Settore.toLowerCase();
 
-		if (sector === '-') {
-			sector = properties.falesia;
+			if (sector === '-') {
+				sector = properties.falesia;
+			}
 		}
 
 		if (output[sector]) {
@@ -165,10 +180,10 @@ const formatResults = (results) => {
 	return output;
 };
 
-const cleanResults = (results) => {
+const cleanResults = (results: Array<Feature>) => {
 	// Remove duplicates
-	let output = [];
-	let memory = [];
+	let output: Array<Feature> = [];
+	let memory: Array<string | number | undefined> = [];
 
 	for (let record of results) {
 		if (memory.includes(record.id)) continue;
@@ -179,14 +194,16 @@ const cleanResults = (results) => {
 	return output;
 };
 
-const filterByArea = (area: string, data) => {
+const filterByArea = (area: string, data: Array<Feature>) => {
 	let properties;
-	let sector;
-	let results = [];
+	let sector = '';
+	let results: Array<Feature> = [];
 
 	for (let crag of data) {
 		properties = crag.properties;
-		sector = properties.Settore === '-' ? properties.falesia : properties.Settore;
+		if (properties) {
+			sector = properties.Settore === '-' ? properties.falesia : properties.Settore;
+		}
 
 		if (sector.toLowerCase() === area.toLowerCase() || area === 'all-sectors') {
 			results.push(crag);
@@ -196,7 +213,7 @@ const filterByArea = (area: string, data) => {
 	return results;
 };
 
-const filterByExposure = (exposure: string, data) => {
+const filterByExposure = (exposure: { [key: string]: boolean }, data: Array<Feature>) => {
 	let properties;
 	let results = [];
 
@@ -206,7 +223,7 @@ const filterByExposure = (exposure: string, data) => {
 
 	for (let crag of data) {
 		properties = crag.properties;
-		if (allowedExposures.includes(properties.azimut)) {
+		if (properties && allowedExposures.includes(properties.azimut)) {
 			results.push(crag);
 		}
 	}
@@ -214,11 +231,16 @@ const filterByExposure = (exposure: string, data) => {
 	return results;
 };
 
-const filterBySunOptions = (options, hours, period, data) => {
+const filterBySunOptions = (
+	options: string,
+	hours: { [key: string]: number },
+	period: { [key: string]: boolean },
+	data: Array<Feature>
+) => {
 	// Depending on the options the min and max hours are selected
 
 	let properties;
-	let results = [];
+	let results: Array<Feature> = [];
 
 	let autumnResults = [];
 	let winterResults = [];
@@ -231,7 +253,7 @@ const filterBySunOptions = (options, hours, period, data) => {
 	let spring = period.spring;
 	let summer = period.summer;
 
-	let minHour, maxHour;
+	let minHour, maxHour: number;
 
 	if (options === 'all-day-sun') {
 		[minHour, maxHour] = [MIN_HOUR_OF_SUNLIGHT, MAX_HOUR_OF_SUNLIGHT];
@@ -243,7 +265,7 @@ const filterBySunOptions = (options, hours, period, data) => {
 	}
 
 	for (let crag of data) {
-		properties = crag.properties;
+		properties = crag.properties || {};
 		// Filter on all sun
 		let [minAutumn, maxAutumn] = formatHoursOfSunlight(properties.fall);
 		let [minWinter, maxWinter] = formatHoursOfSunlight(properties.winter);
@@ -314,8 +336,8 @@ const filterBySunOptions = (options, hours, period, data) => {
 	return cleanResults(results);
 };
 
-export const digestFormData = (data, filters) => {
-	let results = data;
+export const digestFormData = (data: any, filters: FilterForm) => {
+	let results: Array<Feature> = data;
 
 	// Colinder filter model
 	// 1. Sector
@@ -328,17 +350,17 @@ export const digestFormData = (data, filters) => {
 	results = filterBySunOptions(filters.sunOptions, filters.hoursOfDay, filters.timeOfyear, results);
 
 	// Formatting to get an object with key[sector]: value[Array<crags>]
-	results = formatResults(results);
-	return results;
+	const cleanedResults = formatResults(results);
+	return cleanedResults;
 };
 
 // Timezone and Timestamps
-export const getTimezoneDate = (timestamp, offset) => {
+export const getTimezoneDate = (timestamp: number, offset: number) => {
 	return timestamp + offset;
 };
 
-export const formatUnixDate = (unix, lang = 'en') => {
-	let DAYS_OF_THE_WEEK = [];
+export const formatUnixDate = (unix: number, lang: string = 'en') => {
+	let DAYS_OF_THE_WEEK: string[] = [];
 	if (lang === 'it') {
 		DAYS_OF_THE_WEEK = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
 	} else {
@@ -354,12 +376,12 @@ export const formatUnixDate = (unix, lang = 'en') => {
 	return [day, weekDay, hour];
 };
 
-export const getPercentage = (num) => {
+export const getPercentage = (num: number) => {
 	return isNaN(num) ? '-' : Math.floor(num * 100);
 };
 
 // Cache utils
-export const getCacheKey = (prefix, data) => {
+export const getCacheKey = (prefix: string, data: string) => {
 	/**
 	 * Utils to form the key to put in the cache
 	 * The function will hash the data MD5 and attach the prefix

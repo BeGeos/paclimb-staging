@@ -1,8 +1,9 @@
 // Logger
 import { logger } from '@log';
 
-/** @type {import('@sveltejs/kit').Handle} */
-export async function logRequestsHandler({ event, resolve }) {
+import type { Handle } from '@sveltejs/kit';
+
+export const logRequestsHandler: Handle = async ({ event, resolve }) => {
 	/**
 	 * Logging incoming requests
 	 */
@@ -10,10 +11,9 @@ export async function logRequestsHandler({ event, resolve }) {
 	logger.info(message);
 
 	return await resolve(event);
-}
+};
 
-/** @type {import('@sveltejs/kit').Handle} */
-export async function logRequestDetailsHandler({ event, resolve }) {
+export const logRequestDetailsHandler: Handle = async ({ event, resolve }) => {
 	/**
 	 * Logging incoming request details
 	 * TODO users and sessions will be added later
@@ -22,4 +22,4 @@ export async function logRequestDetailsHandler({ event, resolve }) {
 	logger.info(JSON.stringify(event));
 
 	return await resolve(event);
-}
+};

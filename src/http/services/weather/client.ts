@@ -1,12 +1,18 @@
 // External libs
 import 'dotenv/config';
 
+// Types
+import type { ApiClient } from '@types';
+
 // HTTP client for the weather app OpenWeatherMap
 
-export class WeatherAPIClient {
-	apiBaseUrl = process.env.OPENWEATHER_ONE_CALL_URL;
+export class WeatherAPIClient implements ApiClient {
+	apiBaseUrl = process.env.OPENWEATHER_ONE_CALL_URL as string;
+	apiKey: string | number;
+	options: { [key: string]: string | number };
+	headers: Headers;
 
-	constructor(apiKey, options = {}) {
+	constructor(apiKey: string, options: { [key: string]: string | number } = {}) {
 		this.apiKey = apiKey;
 		this.options = options;
 		this.headers = this.buildRequestHeaders();
@@ -24,7 +30,7 @@ export class WeatherAPIClient {
 	buildRequestUrl() {
 		let url = new URL(this.apiBaseUrl);
 		let params = this.buildRequestSearchParams();
-		url.search = new URLSearchParams(params);
+		url.search = new URLSearchParams(params) + '';
 		return url;
 	}
 
@@ -47,7 +53,7 @@ export class WeatherAPIClient {
 
 		try {
 			return await fetch(request);
-		} catch (err) {
+		} catch (err: any) {
 			throw new Error(err.message);
 		}
 	}

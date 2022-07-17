@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import type { Writable } from 'svelte/store';
 
 // Import falesie
 import { features as walls } from './files/falesie.json';
@@ -11,19 +12,19 @@ export const sectors = writable([]);
 
 export const roadColors = writable({});
 
-const loadFalesie = () => {
+const loadFalesie = async () => {
 	falesie.set(walls);
 };
 
-const loadParkings = () => {
+const loadParkings = async () => {
 	parkings.set(_parkings);
 };
 
-const loadSectors = () => {
+const loadSectors = async () => {
 	sectors.set(_sectors);
 };
 
-const loadColors = () => {
+const loadColors = async () => {
 	roadColors.set({
 		'verezzi road': '#eaf344',
 		'perti road': '#38a800',

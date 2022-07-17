@@ -8,7 +8,7 @@ import type { MapMouseEvent, Map, MapLayerMouseEvent } from 'mapbox-gl';
 import type { MapBoundingBox } from '@types';
 
 // https://docs.mapbox.com/help/glossary/access-token/
-mapbox.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
+mapbox.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN as string;
 
 export const FINALE_LIGURE_BBOX: MapBoundingBox = [8.2836296, 44.1547898, 8.4371453, 44.2277226];
 export const FINALE_LIGURE_MAX_BOUNDS: MapBoundingBox[] = [

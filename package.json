@@ -36,6 +36,7 @@
 	"dependencies": {
 		"@fortawesome/free-solid-svg-icons": "^6.1.1",
 		"@mapbox/mapbox-gl-geocoder": "^5.0.0",
+		"@types/geojson": "^7946.0.10",
 		"@types/mapbox-gl": "^2.7.3",
 		"crypto-js": "^4.1.1",
 		"dotenv": "^16.0.1",
