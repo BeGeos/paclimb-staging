@@ -31,7 +31,7 @@
 <label class="relative w-28 flex-1 group">
 	<span class="font-normal block text-center">{text}</span>
 	<!-- <input type="hidden" name={radioGroup} value="False" /> -->
-	<div class="text-[.65em] min-w-full text-center font-light mb-2 text-gray-500">
+	<div class="text-[.75em] min-w-full text-center font-light mb-2 text-gray-500">
 		{subtext}
 	</div>
 	<input

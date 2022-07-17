@@ -4,10 +4,10 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 // https://docs.mapbox.com/help/glossary/access-token/
 mapbox.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
-export const FINALE_LIGURE_BBOX = [8.2836296, 44.1547898, 8.4371453, 44.2277226];
+export const FINALE_LIGURE_BBOX = [8.2164857, 44.118488, 8.4883968, 44.2654405];
 export const FINALE_LIGURE_MAX_BOUNDS = [
-	[8.2836296, 44.1547898],
-	[8.4371453, 44.2277226]
+	[8.2164857, 44.1184881],
+	[8.4883968, 44.2654405]
 ];
 
 export const addCursorToLayers = (map, layer) => {

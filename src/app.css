@@ -71,10 +71,10 @@ p {
 
 @layer components {
 	.primary-btn-exposure {
-		@apply font-bold p-2 h-12 w-12 text-2xl rounded-full bg-white shadow-lg absolute flex text-center cursor-pointer;
+		@apply font-bold p-2 h-12 w-12 text-2xl rounded-full bg-white absolute flex text-center cursor-pointer;
 	}
 
 	.secondary-btn-exposure {
-		@apply font-bold p-2 h-10 w-10 text-sm rounded-full bg-white shadow-lg absolute flex text-center cursor-pointer;
+		@apply font-bold p-2 h-10 w-10 text-sm rounded-full bg-white absolute flex text-center cursor-pointer;
 	}
 }

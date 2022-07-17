@@ -21,7 +21,7 @@
 </script>
 
 <div
-	class="w-[1.5rem] h-[1.5rem] rounded-full border-2 border-white shadow-3xl flex items-center justify-center cursor-pointer"
+	class="w-[1.5rem] h-[1.5rem] rounded-full border-2 border-white shadow-xl flex items-center justify-center cursor-pointer"
 	style={styles}
 	on:click={flyToPark}
 >
