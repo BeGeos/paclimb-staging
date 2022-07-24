@@ -51,7 +51,7 @@
 	let map: Map;
 	let navigationControl: NavigationControl;
 	let geolocateControl: GeolocateControl;
-	let geocoder;
+	let geocoder: MapboxGeocoder;
 	let dataWalls: WallsData;
 	let geocoderContainer: HTMLElement;
 	let roadName: string;

@@ -1,18 +1,19 @@
-<script context="module">
-	/** @type {import('@sveltejs/kit').Load} */
-	export function load({ error, status }) {
+<script context="module" lang="ts">
+	import type { ErrorLoad } from '@sveltejs/kit';
+
+	export const load: ErrorLoad = ({ error, status }) => {
 		return {
 			props: {
 				error,
 				status
 			}
 		};
-	}
+	};
 </script>
 
-<script>
-	export let error;
-	export let status;
+<script lang="ts">
+	export let error: Error;
+	export let status: number;
 
 	let debug = import.meta.env.VITE_DEBUG === 'true';
 </script>

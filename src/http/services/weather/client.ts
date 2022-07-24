@@ -8,11 +8,11 @@ import type { ApiClient } from '@types';
 
 export class WeatherAPIClient implements ApiClient {
 	apiBaseUrl = process.env.OPENWEATHER_ONE_CALL_URL as string;
-	apiKey: string | number;
-	options: { [key: string]: string | number };
+	apiKey: string;
+	options: { [key: string]: string | number | null };
 	headers: Headers;
 
-	constructor(apiKey: string, options: { [key: string]: string | number } = {}) {
+	constructor(apiKey: string, options: { [key: string]: string | number | null } = {}) {
 		this.apiKey = apiKey;
 		this.options = options;
 		this.headers = this.buildRequestHeaders();

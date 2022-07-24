@@ -9,6 +9,7 @@ import { logRequestsHandler } from '@hooks/logs.hooks';
 
 // Cache Middlewares
 import { checkWeatherCacheHandler } from '@hooks/cache.hooks';
+import type { HandleError } from '@sveltejs/kit';
 
 // Middlewares - from first to last
 export const handle = sequence(
@@ -18,7 +19,7 @@ export const handle = sequence(
 );
 
 /** @type {import('@sveltejs/kit').HandleError} */
-export async function handleError({ error, event }) {
+export const handleError: HandleError = ({ error, event }) => {
 	logger.debug(JSON.stringify(event));
 	logger.error(error);
-}
+};

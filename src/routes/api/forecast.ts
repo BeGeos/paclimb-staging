@@ -19,12 +19,15 @@ import { cache } from '@redis';
 // Utils
 import { getCacheKey } from '@utils';
 
+// Types
+import type { RequestHandler } from '@sveltejs/kit';
+
 // Env
-const env = import.meta.env.VITE_ENVIRONMENT;
+const env = import.meta.env.VITE_ENVIRONMENT as string;
 
-const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY;
+const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY as string;
 
-export async function get({ url }) {
+export const get: RequestHandler = async ({ url }) => {
 	let lat = url.searchParams.get('lat');
 	let lon = url.searchParams.get('lon');
 
@@ -70,7 +73,7 @@ export async function get({ url }) {
 					}
 				}
 			};
-		} catch (err) {
+		} catch (err: any) {
 			logger.error(new Error(err.stack));
 			return {
 				status: http_500,
@@ -89,4 +92,4 @@ export async function get({ url }) {
 			body: weather
 		};
 	}
-}
+};

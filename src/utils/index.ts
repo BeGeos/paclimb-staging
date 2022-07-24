@@ -4,7 +4,7 @@ import MD5 from 'crypto-js/md5.js';
 
 // Types
 import type { Feature } from 'geojson';
-import type { WallFilterResults } from '@types';
+import type { WallFilterResults, SectorsData } from '@types';
 
 interface AzimuthMapper {
 	north: string | number;
@@ -115,7 +115,7 @@ export const formatFilterFormData = (data: FormData) => {
 	};
 };
 
-export const getSectorOptions = (sectors) => {
+export const getSectorOptions = (sectors: SectorsData[]) => {
 	return sectors.map((sector) => sector.properties.Settore.toLowerCase());
 };
 

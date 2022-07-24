@@ -1,11 +1,11 @@
-<script context="module">
+<script context="module" lang="ts">
+	import type { Load } from '@sveltejs/kit';
 	import { http_404 } from '@http/status';
 
-	/** @type {import('./__types/[...path]').Load} */
-	export function load({ params }) {
+	export const load: Load = ({ params }) => {
 		return {
 			status: http_404.status,
 			error: new Error(`Not found: /${params.path}`)
 		};
-	}
+	};
 </script>

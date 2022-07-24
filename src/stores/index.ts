@@ -1,12 +1,12 @@
 import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
 
+import type { WallsData, ParkingsData, SectorsData } from '@types';
+
 // Import falesie
 import { features as walls } from './files/falesie.json';
 import { features as _parkings } from './files/parking.json';
 import { features as _sectors } from './files/sector.json';
-
-import type { WallsData, ParkingsData, SectorsData } from '@types';
 
 export const falesie: Writable<WallsData[]> = writable([]);
 export const parkings: Writable<ParkingsData[]> = writable([]);
