@@ -4,6 +4,9 @@
 	// Components
 	import Tooltip from '@components/Tooltip.svelte';
 
+	// Utils
+	import { slugify } from '@utils';
+
 	const dispatch = createEventDispatcher();
 
 	// Import Font awesome
@@ -18,13 +21,6 @@
 		dispatch('checkSunlight', {
 			name: name
 		});
-	};
-
-	const slugify = (text: string): string => {
-		return text
-			.split(/\s+/)
-			.map((c) => c.toLowerCase())
-			.join('-');
 	};
 </script>
 

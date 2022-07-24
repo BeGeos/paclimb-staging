@@ -13,6 +13,7 @@
 	};
 </script>
 
+<!-- TODO modular system for maps, provide config files to init map -->
 <Map
 	lat={44.178981}
 	lon={8.34119}

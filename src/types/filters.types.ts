@@ -1,3 +1,5 @@
+import type { Feature } from 'geojson';
+
 export interface FilterForm {
 	area: string;
 	timeOfyear: {
@@ -21,4 +23,13 @@ export interface FilterForm {
 		west: boolean;
 		'north-west': boolean;
 	};
+}
+
+export interface WallFilterResults {
+	self: Feature;
+	name: string;
+	x: string | number;
+	y: string | number;
+	azimuth: string;
+	key: string;
 }

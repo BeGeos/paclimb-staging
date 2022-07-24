@@ -8,7 +8,10 @@
 	// Utils
 	import { titleCase } from '@utils';
 
-	export let results;
+	// Types
+	import type { WallFilterResults } from '@types';
+
+	export let results: { [key: string]: Array<WallFilterResults> } | {};
 
 	const dispatch = createEventDispatcher();
 
@@ -22,8 +25,8 @@
 
 	const handleFlyFromResults = (
 		e: MouseEvent,
-		x: string,
-		y: string,
+		x: string | number,
+		y: string | number,
 		self: object,
 		azimuth: string
 	) => {

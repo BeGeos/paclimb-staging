@@ -1,7 +1,11 @@
 export type { MapBoundingBox } from './map.types';
 export type { MapData } from './map.types';
+export type { WallsData } from './map.types';
+export type { ParkingsData } from './map.types';
+export type { SectorsData } from './map.types';
 export type { WeatherHourlyData } from './weather.types';
 export type { WeatherOneCallData } from './weather.types';
 export type { ApiError } from './api.types';
 export type { FilterForm } from './filters.types';
+export type { WallFilterResults } from './filters.types';
 export type { ApiClient } from './client.types';

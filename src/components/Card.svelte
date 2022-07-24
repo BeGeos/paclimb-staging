@@ -97,8 +97,8 @@
 	$: parking2 = props.park2 != '-' ? props.park2 : null;
 	$: parkingLink2 = props.park2_lk ? props.park2_lk : null;
 	$: park2_road = props.park2_road;
-	$: park2_x = parseFloat(props.park2_x);
-	$: park2_y = parseFloat(props.park2_y);
+	$: park2_x = parseFloat(props.park2_x || '0');
+	$: park2_y = parseFloat(props.park2_y || '0');
 
 	// Exposure details
 	$: fall = props.fall;

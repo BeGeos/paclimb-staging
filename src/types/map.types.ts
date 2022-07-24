@@ -1,3 +1,5 @@
+import type { GeoJsonGeometryTypes, Geometry, Polygon } from 'geojson';
+
 export interface MapData {
 	falesia: string;
 	Settore: string;
@@ -21,6 +23,44 @@ export interface MapData {
 	spring: string;
 	summr: string;
 	winter: string;
+}
+
+export interface ParkData {
+	nome_cpark: string;
+	GoogleLink: string;
+	ClimbRoad: string;
+	park_num: number | string;
+	nom_cpark2: string;
+	x: number | string;
+	y: number | string;
+}
+
+export interface WallsData {
+	type?: string | GeoJsonGeometryTypes;
+	id?: string | number;
+	geometry?: Geometry;
+	properties: MapData;
+	[key: string]: any;
+}
+
+export interface SectorsData {
+	type?: string | GeoJsonGeometryTypes;
+	id?: number | string;
+	geometry?: Geometry;
+	properties: {
+		Settore: string;
+		x: string | number;
+		y: string | number;
+	};
+	[key: string]: any;
+}
+
+export interface ParkingsData {
+	type?: string | GeoJsonGeometryTypes;
+	id?: string | number;
+	geometry?: Geometry;
+	properties: ParkData;
+	[key: string]: any;
 }
 
 export type MapBoundingBox = number[];

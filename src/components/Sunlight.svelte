@@ -6,8 +6,8 @@
 	export let title: string = '';
 	export let fake: boolean = false;
 
-	let periodStart: string;
-	let periodEnd: string;
+	let periodStart: number;
+	let periodEnd: number;
 	let periodRatio: number;
 	let periodStartPosition: number;
 	let periodEndPosition: number;
@@ -30,7 +30,7 @@
 		</div>
 	{:else}
 		<div class="h-3.5 flex-1 bg-deep-brown relative">
-			{#if periodStart}
+			{#if periodStart >= 0}
 				<span class="font-light absolute -top-[140%]" style:left={`${periodStartPosition - 2}%`}
 					>{periodStart}</span
 				>

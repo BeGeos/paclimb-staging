@@ -12,8 +12,8 @@
 	let percentLower: number;
 	let percentUpper: number;
 
-	let minGap: number = 0;
-	let sliderMaxValue: number = 24;
+	let minGap = 0;
+	let sliderMaxValue = 24;
 	let upperValue: number;
 	let lowerValue: number;
 	let upperSlider: HTMLInputElement | SliderInput = {};
@@ -32,38 +32,38 @@
 	};
 
 	const fillColor = () => {
-		percentUpper = getPercentage(upperSlider.value);
-		percentLower = getPercentage(lowerSlider.value);
+		percentUpper = getPercentage(upperSlider.value as number);
+		percentLower = getPercentage(lowerSlider.value as number);
 
 		// Add style to slider track
 		sliderTrack.style.background = `linear-gradient(to right, var(--clr-dark-blue) ${percentLower}% , var(--clr-sun-yellow) ${percentLower}% , var(--clr-sun-yellow) ${percentUpper}%, var(--clr-dark-blue) ${percentUpper}%)`;
 	};
 
 	const handleUpperSlider = () => {
-		if (+upperSlider.value - +lowerSlider.value <= minGap) {
-			setUpperValue(+lowerSlider.value + minGap);
+		if (+(upperSlider.value as number) - +(lowerSlider.value as number) <= minGap) {
+			setUpperValue(+(lowerSlider.value as number) + minGap);
 		}
 
-		upperValue = upperSlider.value;
+		upperValue = upperSlider.value as number;
 		fillColor();
 	};
 
 	const handleLowerSlider = () => {
-		if (+upperSlider.value - +lowerSlider.value <= minGap) {
-			setLowerValue(+upperSlider.value - minGap);
+		if (+(upperSlider.value as number) - +(lowerSlider.value as number) <= minGap) {
+			setLowerValue(+(upperSlider.value as number) - minGap);
 		}
 
-		lowerValue = lowerSlider.value;
+		lowerValue = lowerSlider.value as number;
 		fillColor();
 	};
 
-	export const resetSlider = (e) => {
+	export const resetSlider = () => {
 		setTimeout(() => {
 			setLowerValue(7);
 			setUpperValue(19);
 
-			upperValue = upperSlider.value;
-			lowerValue = lowerSlider.value;
+			upperValue = upperSlider.value as number;
+			lowerValue = lowerSlider.value as number;
 
 			fillColor();
 		}, 5);

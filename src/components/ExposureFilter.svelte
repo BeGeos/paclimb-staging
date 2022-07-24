@@ -15,7 +15,6 @@
 </script>
 
 <label class="block absolute" style:top style:left style:right style:bottom>
-	<!-- <input type="hidden" {name} value="False" /> -->
 	<input type="checkbox" {name} value="true" class="hidden peer" />
 	<span
 		class={`block select-none border border-black/40 peer-checked:bg-sky-blue peer-checked:text-white peer-checked:border-none ${sizeClass}`}

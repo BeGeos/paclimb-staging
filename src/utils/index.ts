@@ -4,7 +4,7 @@ import MD5 from 'crypto-js/md5.js';
 
 // Types
 import type { Feature } from 'geojson';
-import type { MapData } from '@types';
+import type { WallFilterResults } from '@types';
 
 interface AzimuthMapper {
 	north: string | number;
@@ -16,14 +16,6 @@ interface AzimuthMapper {
 	west: string | number;
 	'north-west': string | number;
 	[key: string]: string | number;
-}
-
-interface WallFilterResults {
-	self: Feature;
-	name: string;
-	x: string | number;
-	y: string | number;
-	azimuth: string;
 }
 
 // Global variables
@@ -391,4 +383,11 @@ export const getCacheKey = (prefix: string, data: string) => {
 	let hash = MD5(data);
 
 	return `${prefix}:${hash}`;
+};
+
+export const slugify = (text: string): string => {
+	return text
+		.split(/\s+/)
+		.map((c) => c.toLowerCase())
+		.join('-');
 };

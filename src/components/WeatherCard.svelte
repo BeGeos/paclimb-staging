@@ -27,17 +27,17 @@
 		dispatch('closeWeather');
 	};
 
-	let weather: WeatherOneCallData;
+	let weather: WeatherOneCallData | undefined;
 	let error: string;
 
-	let iconUrl: any = import.meta.env.VITE_OPENWEATHER_ICON_URL;
+	let iconUrl = import.meta.env.VITE_OPENWEATHER_ICON_URL as string;
 
 	let currentDate: number;
 	let timezoneOffset: number;
-	let adjustedDate: string;
-	let day: string;
-	let weekDay: string;
-	let hour: number;
+	let adjustedDate: number;
+	let day: string | number;
+	let weekDay: string | number;
+	let hour: string | number;
 	let currentTemp: number;
 	let currentMainWeather: string;
 	let currentMainIcon: string;
@@ -71,7 +71,8 @@
 		weatherHourlyForecast = weather.hourly;
 	}
 
-	onMount(() => {
+	onMount(async () => {
+		// TODO use the load function when the page is loaded - keep async
 		fetchWeather(lat, lon)
 			.then((data) => {
 				if (data.status === 200) {

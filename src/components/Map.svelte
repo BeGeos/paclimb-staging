@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	// Svelte dependencies
 	import { createEventDispatcher } from 'svelte';
 	import { onDestroy, onMount } from 'svelte';
@@ -26,35 +26,39 @@
 	import { mapbox, MapboxGeocoder, addCursorToLayers, addFlytTo } from '@utils/mapbox';
 	import { convertAzimuthFromTextToInt } from '@utils';
 
+	// types
+	import type { Map, NavigationControl, GeolocateControl, MapMouseEvent } from 'mapbox-gl';
+	import type { WallsData, ParkingsData, SectorsData } from '@types';
+
 	// Import bounding boxes - for now just Finale Ligure
 	import { FINALE_LIGURE_BBOX, FINALE_LIGURE_MAX_BOUNDS } from '@utils/mapbox';
 
 	// Global variables
-	let BASE_STYLE_URL = import.meta.env.VITE_MAPBOX_BASE_STYLE_URL;
-	let SATELLITE_ID = import.meta.env.VITE_MAPBOX_SATELLITE_ID;
-	let OUTDOOR_ID = import.meta.env.VITE_MAPBOX_OUTDOOR_ID;
+	let BASE_STYLE_URL = import.meta.env.VITE_MAPBOX_BASE_STYLE_URL as string;
+	let SATELLITE_ID = import.meta.env.VITE_MAPBOX_SATELLITE_ID as string;
+	let OUTDOOR_ID = import.meta.env.VITE_MAPBOX_OUTDOOR_ID as string;
 
 	// External variables
-	export let lat;
-	export let lon;
-	export let zoom;
-	export let pitch;
-	export let bearing;
-	export let visible;
+	export let lat: number;
+	export let lon: number;
+	export let zoom: number;
+	export let pitch: number;
+	export let bearing: number;
+	export let visible: boolean;
 
 	// Internal variables
-	let container;
-	let map;
-	let navigationControl;
-	let geolocateControl;
+	let container: HTMLElement;
+	let map: Map;
+	let navigationControl: NavigationControl;
+	let geolocateControl: GeolocateControl;
 	let geocoder;
-	let dataWalls;
-	let geocoderContainer;
-	let roadName;
-	let featureName;
-	let featureLink;
-	let windyParam;
-	let windowWidth;
+	let dataWalls: WallsData;
+	let geocoderContainer: HTMLElement;
+	let roadName: string;
+	let featureName: string;
+	let featureLink: string;
+	let windyParam: string;
+	let windowWidth: number;
 
 	let x = 0;
 	let y = 0;
@@ -67,6 +71,8 @@
 	let weatherActive = false;
 	let openWindy = false;
 	let defaultBearing = -19.18;
+
+	type MatchingFeatures = Array<WallsData | ParkingsData | SectorsData>;
 
 	const returnHome = () => {
 		closeWallCard();
@@ -91,8 +97,8 @@
 		cardVisible = true;
 	};
 
-	const addEventFalesie = (map) => {
-		map.on('click', 'falesieetichetta5', (e) => {
+	const addEventFalesie = (map: Map) => {
+		map.on('click', 'falesieetichetta5', (e: MapMouseEvent) => {
 			dataWalls = e.features[0];
 			let wallX = parseFloat(dataWalls.properties.falesia_x);
 			let wallY = parseFloat(dataWalls.properties.falesia_y);
@@ -104,8 +110,8 @@
 		});
 	};
 
-	const addPopupOnClick = (map, layer) => {
-		map.on('click', layer, (e) => {
+	const addPopupOnClick = (map: Map, layer: string) => {
+		map.on('click', layer, (e: MapMouseEvent) => {
 			let feature = e.features[0];
 			roadName = feature.properties.ClimbRoad;
 			featureName = feature.properties.nome_cpark
@@ -121,13 +127,13 @@
 		});
 	};
 
-	const addClosePopup = (map) => {
-		container.addEventListener('pointerdown', (e) => {
+	const addClosePopup = (map: Map) => {
+		container.addEventListener('pointerdown', () => {
 			if (show) return (show = false);
 		});
 	};
 
-	const flyToPark = (map, x, y) => {
+	const flyToPark = (map: Map, x: number, y: number) => {
 		map.flyTo({
 			center: [x, y],
 			bearing: 0,
@@ -136,9 +142,9 @@
 		});
 	};
 
-	const flyToWallBestView = (map, x, y, azimuth) => {
+	const flyToWallBestView = (map: Map, x: number, y: number, azimuth: string) => {
 		let localAzimuth = convertAzimuthFromTextToInt(azimuth.toLowerCase());
-		let localBearing;
+		let localBearing: number;
 
 		if (!azimuth || localAzimuth == undefined) {
 			localBearing = defaultBearing;
@@ -168,8 +174,8 @@
 		return;
 	};
 
-	const forwardGeocoder = (query) => {
-		const matchingFeatures = [];
+	const forwardGeocoder = (query: string) => {
+		const matchingFeatures: MatchingFeatures = [];
 		for (const feature of $falesie) {
 			// Handle queries with different capitalization
 			// than the source data by calling toLowerCase().
@@ -233,7 +239,7 @@
 		});
 
 		geocoder = new MapboxGeocoder({
-			accessToken: import.meta.env.VITE_MAPBOX_ACCESS_TOKEN,
+			accessToken: import.meta.env.VITE_MAPBOX_ACCESS_TOKEN as string,
 			placeholder: 'Search the crags...',
 			localGeocoder: forwardGeocoder,
 			bbox: FINALE_LIGURE_BBOX,
@@ -275,7 +281,6 @@
 			// map.addControl(fullScreenControl);
 			map.addControl(navigationControl);
 			map.addControl(geolocateControl);
-
 			geocoderContainer.appendChild(geocoder.onAdd(map));
 		}
 	};
@@ -290,7 +295,7 @@
 		}
 	};
 
-	const changeStyle = (option) => {
+	const changeStyle = (option: string) => {
 		outdoor = !outdoor;
 		satellite = !satellite;
 		if (option === 'satellite') {
@@ -302,7 +307,7 @@
 		}
 	};
 
-	const handleWeatherDetails = (e) => {
+	const handleWeatherDetails = (e: CustomEvent) => {
 		windyParam = e.detail.param;
 		openWindy = true;
 	};
@@ -424,7 +429,7 @@
 		on:closeCard={closeWallCard}
 	/>
 {/if}
-<Popup {roadName} {featureName} {featureLink} {show} {x} {y} handleClose={closePopup} />
+<Popup {roadName} {featureName} {featureLink} {show} handleClose={closePopup} />
 
 <style>
 	.active {

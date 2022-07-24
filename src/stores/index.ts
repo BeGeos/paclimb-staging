@@ -6,11 +6,13 @@ import { features as walls } from './files/falesie.json';
 import { features as _parkings } from './files/parking.json';
 import { features as _sectors } from './files/sector.json';
 
-export const falesie = writable([]);
-export const parkings = writable([]);
-export const sectors = writable([]);
+import type { WallsData, ParkingsData, SectorsData } from '@types';
 
-export const roadColors = writable({});
+export const falesie: Writable<WallsData[]> = writable([]);
+export const parkings: Writable<ParkingsData[]> = writable([]);
+export const sectors: Writable<SectorsData[]> = writable([]);
+
+export const roadColors: Writable<{ [key: string]: string }> = writable({});
 
 const loadFalesie = async () => {
 	falesie.set(walls);

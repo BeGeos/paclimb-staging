@@ -4,9 +4,9 @@
 
 	const dispatch = createEventDispatcher();
 
-	export let road: string | undefined;
-	export let x: string | number | undefined;
-	export let y: string | number | undefined;
+	export let road: string = '';
+	export let x: string | number = 0;
+	export let y: string | number = 0;
 
 	const flyToPark = () => {
 		dispatch('flyToPark', {

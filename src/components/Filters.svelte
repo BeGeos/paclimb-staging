@@ -9,6 +9,9 @@
 	import { createEventDispatcher, SvelteComponent } from 'svelte';
 	import { fly } from 'svelte/transition';
 
+	// Types
+	import type { WallFilterResults } from '@types';
+
 	// Import components
 	import AreaFilter from '@components/AreaFilter.svelte';
 	import SunlightFilter from '@components/SunlightFilter.svelte';
@@ -44,7 +47,7 @@
 	let allShadow: boolean = false;
 	let appear: boolean = false;
 	let filterHistory: object = {};
-	let filteredData: object = {};
+	let filteredData: { [key: string]: Array<{} | WallFilterResults> } = {};
 
 	let submitCounter: number = 0;
 
@@ -67,10 +70,10 @@
 		appear = true;
 	};
 
-	const handleFormReset = (e: any) => {
+	const handleFormReset = () => {
 		allSun = false;
 		allShadow = false;
-		sunlight.resetSlider(e);
+		sunlight.resetSlider();
 		submitCounter = 0;
 	};
 </script>
